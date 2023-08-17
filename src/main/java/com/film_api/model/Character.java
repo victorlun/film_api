@@ -2,22 +2,21 @@ package com.film_api.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "character")
 public class Character {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "full_name")
+    // @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "alias")
+    // @Column(name = "alias")
     private String alias;
 
-    @Column(name = "gender")
+    // @Column(name = "gender")
     private String gender;
 
-    @Column(name = "url_photo")
+    // @Column(name = "url_photo")
     private String photo;
 
     public Character() {
