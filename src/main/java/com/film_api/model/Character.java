@@ -9,7 +9,7 @@ public class Character {
     private long id;
 
     @Column(name = "full_name")
-    private String fullName;
+    private String name;
 
     @Column(name = "alias")
     private String alias;
@@ -25,7 +25,7 @@ public class Character {
     }
 
     public Character(String name, String alias, String gender, String url) {
-        this.fullName = name;
+        this.name = name;
         this.alias = alias;
         this.gender = gender;
         this.photo = url;
@@ -36,11 +36,11 @@ public class Character {
     }
 
     public String getFullName() {
-        return fullName;
+        return name;
     }
 
     public void setFullName(String newName) {
-        this.fullName = newName;
+        this.name = newName;
     }
 
     public String getAlias() {
@@ -69,6 +69,6 @@ public class Character {
 
     @Override
     public String toString() {
-        return "Character [id=" + id + ", name=" + fullName + ", alias=" + alias + ", gender=" + gender + ", photo url=" + photo + "]";
+        return "Character [id=" + id + ", name=" + name + ", alias=" + alias + ", gender=" + gender + ", photo url=" + photo + "]";
     }
 }
