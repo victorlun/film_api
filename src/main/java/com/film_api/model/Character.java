@@ -1,12 +1,14 @@
 package com.film_api.model;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "character")
 public class Character {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long character_id;
 
     @Column(name = "full_name")
     private String name;
@@ -20,6 +22,13 @@ public class Character {
     @Column(name = "url_photo")
     private String photo;
 
+    @ManyToMany
+    @JoinTable(
+            name = "characters_movies",
+            joinColumns = @JoinColumn(name = "character_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    Set<Movie> playedInMovies;
+
     public Character() {
 
     }
@@ -32,7 +41,7 @@ public class Character {
     }
 
     public long getId() {
-        return id;
+        return character_id;
     }
 
     public String getFullName() {
@@ -69,6 +78,6 @@ public class Character {
 
     @Override
     public String toString() {
-        return "Character [id=" + id + ", name=" + name + ", alias=" + alias + ", gender=" + gender + ", photo url=" + photo + "]";
+        return "Character [id=" + character_id + ", name=" + name + ", alias=" + alias + ", gender=" + gender + ", photo url=" + photo + "]";
     }
 }
