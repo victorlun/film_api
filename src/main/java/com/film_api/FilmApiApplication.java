@@ -7,9 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableConfigurationProperties
-@EnableJpaRepositories
-@EntityScan(basePackages = {"com.project.film_api"})
+@EnableJpaRepositories("com.film_api.repository")
 public class FilmApiApplication {
 
 	public static void main(String[] args) {
