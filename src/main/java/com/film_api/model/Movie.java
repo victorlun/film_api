@@ -32,7 +32,7 @@ public class Movie {
     Set<Character> charactersInMovie;
 
     @ManyToOne
-    @JoinColumn(name="franchise_id", nullable=false)
+    @JoinColumn(name="franchise_id", nullable=true)
     private Franchise franchise;
 
     public Movie() {
