@@ -1,5 +1,6 @@
 package com.film_api.controller;
 
+import com.film_api.model.Franchise;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,16 @@ public class CharacterController {
             return new ResponseEntity<>(newCharacter, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Update a franchise")
+    @PutMapping("{id}")
+    public ResponseEntity<Character> updateCharacter(@PathVariable Long id, @RequestBody Character characterDetails) {
+        try {
+            Character updatedCharacter = characterService.updateCharacter(id, characterDetails);
+            return ResponseEntity.ok(updatedCharacter);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
