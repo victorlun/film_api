@@ -48,7 +48,7 @@ public class CharacterController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Operation(summary = "Update a franchise")
+    @Operation(summary = "Update a character")
     @PutMapping("{id}")
     public ResponseEntity<Character> updateCharacter(@PathVariable Long id, @RequestBody Character characterDetails) {
         try {
