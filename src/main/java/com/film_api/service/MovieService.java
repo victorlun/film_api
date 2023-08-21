@@ -2,8 +2,12 @@ package com.film_api.service;
 
 import com.film_api.model.Movie;
 import com.film_api.repository.MovieRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import org.hibernate.query.QueryProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +20,9 @@ public class MovieService {
     public MovieService(MovieRepository movieRepository){
         this.movieRepository = movieRepository;
     }
+
+    @Autowired
+    private EntityManager entityManager;
 
     public List<Movie> getAllMovies(){
         return movieRepository.findAll();
@@ -41,6 +48,8 @@ public class MovieService {
             throw new RuntimeException("Movie not found with id: "+ id);
         }
     }
+
+    /*  Old deleteMovie function
     public void deleteMovie(Long id){
         if(movieRepository.existsById(id)){
             movieRepository.deleteById(id);
@@ -48,6 +57,22 @@ public class MovieService {
             throw new RuntimeException("Movie not found with id: " + id);
         }
     }
+    */
+
+    @Transactional
+    public void deleteMovie(Long id) {
+
+        Query deleteAssociationsQuery = entityManager.createNativeQuery("DELETE FROM characters_movies WHERE movie_id = ?")
+                .setParameter(1, id);
+        deleteAssociationsQuery.executeUpdate();
+
+        Query deleteCharacterQuery = entityManager.createNativeQuery("DELETE FROM movie WHERE id = ?")
+                .setParameter(1, id);
+
+        deleteCharacterQuery.executeUpdate();
+    }
+
+
     public List<Movie> getMovieByTitle(String title){
         return movieRepository.findByTitle(title);
     }
