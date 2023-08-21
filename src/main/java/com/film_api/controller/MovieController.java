@@ -48,7 +48,16 @@ public class MovieController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Operation(summary = "Update a movie")
+    @PutMapping("{id}")
+    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movieDetails) {
+        try {
+            Movie updatedMovie = movieService.updateMovie(id, movieDetails);
+            return ResponseEntity.ok(updatedMovie);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @Operation(summary = "Delete a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Movie successfully deleted"),
