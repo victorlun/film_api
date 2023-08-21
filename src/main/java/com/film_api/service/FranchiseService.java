@@ -2,8 +2,11 @@ package com.film_api.service;
 
 import com.film_api.model.Franchise;
 import com.film_api.repository.FranchiseRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +14,8 @@ import java.util.Optional;
 @Service
 public class FranchiseService {
     private final FranchiseRepository franchiseRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     public FranchiseService(FranchiseRepository franchiseRepository){
@@ -39,12 +44,25 @@ public class FranchiseService {
             throw new RuntimeException("Franchise not found with id: " + id);
         }
     }
+    /*
     public void deleteFranchise(Long id){
         if(franchiseRepository.existsById(id)){
             franchiseRepository.deleteById(id);
         }else{
             throw new RuntimeException("Franchise not found with ID: " + id);
         }
+    }
+     */
+
+    @Transactional
+    public void deleteFranchise(Long id) {
+        Query nullifyFranchiseInMovieQuery = entityManager.createNativeQuery("UPDATE movie SET franchise_id = NULL WHERE franchise_id = ?")
+                .setParameter(1, id);
+        nullifyFranchiseInMovieQuery.executeUpdate();
+
+        Query deleteFranchiseQuery = entityManager.createNativeQuery("DELETE FROM franchise WHERE id = ?")
+                .setParameter(1, id);
+        deleteFranchiseQuery.executeUpdate();
     }
 
     public List<Franchise> getFranchiseByName(String name){
