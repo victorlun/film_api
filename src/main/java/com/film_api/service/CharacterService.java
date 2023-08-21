@@ -2,9 +2,14 @@ package com.film_api.service;
 
 import com.film_api.model.Character;
 import com.film_api.repository.CharacterRepository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,10 +17,12 @@ import java.util.Optional;
 public class CharacterService {
 
     private final CharacterRepository characterRepository;
-
+    @Autowired
+    private EntityManager entityManager;
     @Autowired
     public CharacterService(CharacterRepository characterRepository) {
         this.characterRepository = characterRepository;
+
     }
 
     public List<Character> getAllCharacters() {
@@ -45,12 +52,16 @@ public class CharacterService {
         }
     }
 
+    @Transactional
     public void deleteCharacter(Long id) {
-        if (characterRepository.existsById(id)) {
-            characterRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Character not found with id: " + id);
-        }
+        Query deleteAssociationsQuery = entityManager.createNativeQuery("DELETE FROM characters_movies WHERE character_id = ?")
+                .setParameter(1, id);
+        deleteAssociationsQuery.executeUpdate();
+
+        Query deleteCharacterQuery = entityManager.createNativeQuery("DELETE FROM character WHERE id = ?")
+                .setParameter(1, id);
+
+        deleteCharacterQuery.executeUpdate();
     }
 
     public List<Character> getCharactersByName(String name) {

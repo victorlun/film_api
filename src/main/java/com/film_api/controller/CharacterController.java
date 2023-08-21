@@ -1,6 +1,5 @@
 package com.film_api.controller;
 
-import com.film_api.model.Franchise;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,7 @@ import com.film_api.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -18,9 +18,11 @@ public class CharacterController {
 
     private final CharacterService characterService;
 
+
     @Autowired
     public CharacterController(CharacterService characterService) {
         this.characterService = characterService;
+
     }
 
     @Operation(summary = "Get all characters")
@@ -62,9 +64,11 @@ public class CharacterController {
     @Operation(summary = "Delete a character")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCharacter(@PathVariable Long id) {
+        Optional<Character> character = characterService.getCharacterById(id);
+        String name = character.get().getFullName();
         try {
             characterService.deleteCharacter(id);
-            return new ResponseEntity<>("Character deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>(name + " deleted successfully", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
