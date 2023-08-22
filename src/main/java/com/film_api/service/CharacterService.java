@@ -1,7 +1,9 @@
 package com.film_api.service;
 
-import com.film_api.model.Character;
-import com.film_api.repository.CharacterRepository;
+import com.film_api.dto.MovieCharacterDTO;
+import com.film_api.mapper.MovieCharacterMapper;
+import com.film_api.model.MovieCharacter;
+import com.film_api.repository.MovieCharacterRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -9,44 +11,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CharacterService {
 
-    private final CharacterRepository characterRepository;
+    private final MovieCharacterRepository movieCharacterRepository;
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    public CharacterService(CharacterRepository characterRepository) {
-        this.characterRepository = characterRepository;
-
+    private MovieCharacterMapper movieCharacterMapper;
+    @Autowired
+    public CharacterService(MovieCharacterRepository movieCharacterRepository) {
+        this.movieCharacterRepository = movieCharacterRepository;
     }
 
-    public List<Character> getAllCharacters() {
-        return characterRepository.findAll();
+    public List<MovieCharacterDTO> getAllCharacters() {
+        List<MovieCharacter> movieCharacters = movieCharacterRepository.findAll();
+        return movieCharacters.stream()
+                .map(movieCharacterMapper::characterToCharacterDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Character> getCharacterById(Long id) {
-        return characterRepository.findById(id);
+    public Optional<MovieCharacter> getCharacterById(Long id) {
+        return movieCharacterRepository.findById(id);
     }
 
-    public Character createCharacter(Character character) {
-        return characterRepository.save(character);
+    public MovieCharacter createCharacter(MovieCharacter movieCharacter) {
+        return movieCharacterRepository.save(movieCharacter);
     }
 
-    public Character updateCharacter(Long id, Character characterDetails) {
-        Optional<Character> optionalCharacter = characterRepository.findById(id);
+    public MovieCharacter updateCharacter(Long id, MovieCharacter movieCharacterDetails) {
+        Optional<MovieCharacter> optionalCharacter = movieCharacterRepository.findById(id);
 
         if (optionalCharacter.isPresent()) {
-            Character character = optionalCharacter.get();
-            character.setFullName(characterDetails.getFullName());
-            character.setAlias(characterDetails.getAlias());
-            character.setGender(characterDetails.getGender());
-            character.setPhoto(characterDetails.getPhoto());
-            return characterRepository.save(character);
+            MovieCharacter movieCharacter = optionalCharacter.get();
+            movieCharacter.setFullName(movieCharacterDetails.getName());
+            movieCharacter.setAlias(movieCharacterDetails.getAlias());
+            movieCharacter.setGender(movieCharacterDetails.getGender());
+            movieCharacter.setPhoto(movieCharacterDetails.getPhoto());
+            return movieCharacterRepository.save(movieCharacter);
         } else {
             throw new RuntimeException("Character not found with id: " + id);
         }
@@ -64,7 +70,7 @@ public class CharacterService {
         deleteCharacterQuery.executeUpdate();
     }
 
-    public List<Character> getCharactersByName(String name) {
-        return characterRepository.findByName(name);
+    public List<MovieCharacter> getCharactersByName(String name) {
+        return movieCharacterRepository.findByName(name);
     }
 }

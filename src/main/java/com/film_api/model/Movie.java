@@ -29,7 +29,7 @@ public class Movie {
     private String trailer;
 
     @ManyToMany(mappedBy = "playedInMovies")
-    Set<Character> charactersInMovie;
+    Set<MovieCharacter> charactersInMovie;
 
     @ManyToOne
     @JoinColumn(name="franchise_id", nullable=true)

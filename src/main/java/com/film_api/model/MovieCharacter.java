@@ -1,16 +1,18 @@
 package com.film_api.model;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "character")
-public class Character {
+public class MovieCharacter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long character_id;
 
     @Column(name = "full_name")
+    @Getter
     private String name;
 
     @Column(name = "alias")
@@ -29,11 +31,11 @@ public class Character {
             inverseJoinColumns = @JoinColumn(name = "movie_id"))
     Set<Movie> playedInMovies;
 
-    public Character() {
+    public MovieCharacter() {
 
     }
 
-    public Character(String name, String alias, String gender, String url) {
+    public MovieCharacter(String name, String alias, String gender, String url) {
         this.name = name;
         this.alias = alias;
         this.gender = gender;
@@ -42,10 +44,6 @@ public class Character {
 
     public long getId() {
         return character_id;
-    }
-
-    public String getFullName() {
-        return name;
     }
 
     public void setFullName(String newName) {
