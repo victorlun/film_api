@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Mapper(componentModel = "spring", uses = MovieMapper.class) // add uses = MovieMapper.class to reuse the MovieMapper
 public interface MovieCharacterMapper {
-    @Mapping(source = "name", target = "name")
+    @Mapping(source = "playedInMovies", target = "playedInMovies")
     MovieCharacterDTO characterToCharacterDTO(MovieCharacter movieCharacter);
     Character characterDTOtoCharacter(MovieCharacterDTO movieCharacterDTO);
 

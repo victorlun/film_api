@@ -1,9 +1,11 @@
 package com.film_api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
-
+@Getter
+@Setter
 @Entity
 @Table(name = "character")
 public class MovieCharacter {
@@ -24,7 +26,7 @@ public class MovieCharacter {
     @Column(name = "url_photo")
     private String photo;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "characters_movies",
             joinColumns = @JoinColumn(name = "character_id"),

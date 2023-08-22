@@ -35,9 +35,11 @@ public class CharacterService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<MovieCharacter> getCharacterById(Long id) {
-        return movieCharacterRepository.findById(id);
+    public Optional<MovieCharacterDTO> getCharacterById(Long id) {
+        Optional<MovieCharacter> character = movieCharacterRepository.findById(id);
+        return character.map(movieCharacterMapper::characterToCharacterDTO); // Convert to MovieCharacterDTO if present
     }
+
 
     public MovieCharacter createCharacter(MovieCharacter movieCharacter) {
         return movieCharacterRepository.save(movieCharacter);

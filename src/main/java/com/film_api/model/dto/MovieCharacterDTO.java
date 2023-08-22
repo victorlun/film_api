@@ -1,6 +1,5 @@
 package com.film_api.model.dto;
 
-import com.film_api.model.Movie;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +10,5 @@ import java.util.Set;
 public class MovieCharacterDTO {
     private String name;
     private String alias;
-    private Set<Movie> playedInMovies;
+    private Set<MovieDTO> playedInMovies;
 }
