@@ -1,7 +1,6 @@
 package com.film_api.controller;
 
 import com.film_api.dto.MovieDTO;
-import com.film_api.model.Character;
 import com.film_api.model.Movie;
 import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +24,11 @@ public class MovieController {
     }
 
     @Operation(summary = "Get all movies")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movies successfully parsed"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Bad Request")
+    })
     @GetMapping
     public ResponseEntity<List<MovieDTO>> getAll(){
         List<MovieDTO> movies = movieService.getAllMovies();
@@ -41,6 +45,10 @@ public class MovieController {
 
 
     @Operation(summary = "Post a movie")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Movie successfully created"),
+            @ApiResponse(responseCode = "400", description = "Bad Request")
+    })
     @PostMapping
     public ResponseEntity<Movie> postMovie(@RequestBody Movie movie){
         try {
@@ -71,7 +79,6 @@ public class MovieController {
         MovieDTO movie = getSpecificMovie(id).getBody();
         String title = movie.getTitle();
         try {
-
             movieService.deleteMovie(id);
             return new ResponseEntity<>(title +" deleted successfully", HttpStatus.OK);
         } catch (RuntimeException e) {
