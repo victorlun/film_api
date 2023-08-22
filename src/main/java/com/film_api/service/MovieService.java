@@ -1,16 +1,18 @@
 package com.film_api.service;
 
+import com.film_api.dto.MovieDTO;
+import com.film_api.mapper.MovieMapper;
 import com.film_api.model.Movie;
 import com.film_api.repository.MovieRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import org.hibernate.query.QueryProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -22,14 +24,21 @@ public class MovieService {
     }
 
     @Autowired
+    private MovieMapper movieMapper;
+    @Autowired
     private EntityManager entityManager;
 
-    public List<Movie> getAllMovies(){
-        return movieRepository.findAll();
+    public List<MovieDTO> getAllMovies(){
+        List<Movie> movies = movieRepository.findAll();
+        return movies.stream()
+                .map(movieMapper::movieToMovieDTO)
+                .collect(Collectors.toList());
     }
-    public Optional<Movie> getMovieById(Long id){
-        return movieRepository.findById(id);
+    public Optional<MovieDTO> getMovieById(Long id) {
+        Optional<Movie> movieOptional = movieRepository.findById(id);
+        return movieOptional.map(movie -> movieMapper.movieToMovieDTO(movie));
     }
+
     public Movie createMovie(Movie movie){
         return movieRepository.save(movie);
     }

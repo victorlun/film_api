@@ -1,5 +1,6 @@
 package com.film_api.controller;
 
+import com.film_api.dto.MovieDTO;
 import com.film_api.model.Character;
 import com.film_api.model.Movie;
 import com.film_api.service.MovieService;
@@ -25,18 +26,19 @@ public class MovieController {
 
     @Operation(summary = "Get all movies")
     @GetMapping
-    public ResponseEntity<List<Movie>> getAll(){
-        List<Movie> movies = movieService.getAllMovies();
+    public ResponseEntity<List<MovieDTO>> getAll(){
+        List<MovieDTO> movies = movieService.getAllMovies();
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
     @Operation(summary = "Get specific movie")
     @GetMapping("{id}")
-    public ResponseEntity<Movie> getSpecificMovie(@PathVariable Long id){
+    public ResponseEntity<MovieDTO> getSpecificMovie(@PathVariable Long id) {
         return movieService.getMovieById(id)
-                .map(movie -> new ResponseEntity<>(movie, HttpStatus.OK))
+                .map(movieDTO -> new ResponseEntity<>(movieDTO, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
 
     @Operation(summary = "Post a movie")
     @PostMapping
@@ -66,7 +68,7 @@ public class MovieController {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete (@PathVariable Long id){
-        Movie movie = getSpecificMovie(id).getBody();
+        MovieDTO movie = getSpecificMovie(id).getBody();
         String title = movie.getTitle();
         try {
 
