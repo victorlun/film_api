@@ -1,9 +1,10 @@
 package com.film_api.controller;
 
+import com.film_api.dto.MovieCharacterDTO;
+import com.film_api.model.MovieCharacter;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.film_api.model.Character;
 import org.springframework.http.HttpStatus;
 import com.film_api.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,14 @@ public class CharacterController {
 
     @Operation(summary = "Get all characters")
     @GetMapping
-    public ResponseEntity<List<Character>> getAll() {
-        List<Character> characters = characterService.getAllCharacters();
+    public ResponseEntity<List<MovieCharacterDTO>> getAll() {
+        List<MovieCharacterDTO> characters = characterService.getAllCharacters();
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 
     @Operation(summary = "Get a specific character by ID")
     @GetMapping("{id}")
-    public ResponseEntity<Character> getSpecificCharacter(@PathVariable Long id) {
+    public ResponseEntity<MovieCharacter> getSpecificCharacter(@PathVariable Long id) {
         return characterService.getCharacterById(id)
                 .map(character -> new ResponseEntity<>(character, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -42,20 +43,20 @@ public class CharacterController {
 
     @Operation(summary = "Create a new character")
     @PostMapping
-    public ResponseEntity<Character> createCharacter(@RequestBody Character character) {
+    public ResponseEntity<MovieCharacter> createCharacter(@RequestBody MovieCharacter movieCharacter) {
         try {
-            Character newCharacter = characterService.createCharacter(character);
-            return new ResponseEntity<>(newCharacter, HttpStatus.CREATED);
+            MovieCharacter newMovieCharacter = characterService.createCharacter(movieCharacter);
+            return new ResponseEntity<>(newMovieCharacter, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @Operation(summary = "Update a character")
     @PutMapping("{id}")
-    public ResponseEntity<Character> updateCharacter(@PathVariable Long id, @RequestBody Character characterDetails) {
+    public ResponseEntity<MovieCharacter> updateCharacter(@PathVariable Long id, @RequestBody MovieCharacter movieCharacterDetails) {
         try {
-            Character updatedCharacter = characterService.updateCharacter(id, characterDetails);
-            return ResponseEntity.ok(updatedCharacter);
+            MovieCharacter updatedMovieCharacter = characterService.updateCharacter(id, movieCharacterDetails);
+            return ResponseEntity.ok(updatedMovieCharacter);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -64,8 +65,8 @@ public class CharacterController {
     @Operation(summary = "Delete a character")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCharacter(@PathVariable Long id) {
-        Optional<Character> character = characterService.getCharacterById(id);
-        String name = character.get().getFullName();
+        Optional<MovieCharacter> character = characterService.getCharacterById(id);
+        String name = character.get().getName();
         try {
             characterService.deleteCharacter(id);
             return new ResponseEntity<>(name + " deleted successfully", HttpStatus.OK);
