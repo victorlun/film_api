@@ -49,7 +49,7 @@ public class CharacterService {
 
         if (optionalCharacter.isPresent()) {
             MovieCharacter movieCharacter = optionalCharacter.get();
-            movieCharacter.setFullName(movieCharacterDetails.getName());
+            movieCharacter.setName(movieCharacterDetails.getName());
             movieCharacter.setAlias(movieCharacterDetails.getAlias());
             movieCharacter.setGender(movieCharacterDetails.getGender());
             movieCharacter.setPhoto(movieCharacterDetails.getPhoto());
