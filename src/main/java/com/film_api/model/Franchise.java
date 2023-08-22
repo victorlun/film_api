@@ -16,7 +16,7 @@ public class Franchise {
         @Column(name = "description")
         private String description;
 
-        @OneToMany(mappedBy="franchise")
+        @OneToMany(mappedBy="franchise", fetch = FetchType.EAGER)
         private Set<Movie> movies;
 
         public Franchise() {
@@ -47,10 +47,19 @@ public class Franchise {
             return description;
         }
 
+         public Set<Movie> getMovies() {
+            return movies;
+        }
+
+         public void setMovies(Set<Movie> movies) {
+            this.movies = movies;
+         }
+
         @Override
         public String toString() {
-            return "Character [id=" + id + ", name=" + name + ", description=" + description + "]";
-        }
+            return "Franchise [id=" + id + ", name=" + name + ", description=" + description + ", movies=" + movies + "]";
+    }
+
     }
 
 

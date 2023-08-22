@@ -1,5 +1,7 @@
 package com.film_api.service;
 
+import com.film_api.dto.FranchiseDTO;
+import com.film_api.mapper.FranchiseMapper;
 import com.film_api.model.Franchise;
 import com.film_api.repository.FranchiseRepository;
 import jakarta.persistence.EntityManager;
@@ -10,20 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FranchiseService {
     private final FranchiseRepository franchiseRepository;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private FranchiseMapper franchiseMapper;
 
     @Autowired
     public FranchiseService(FranchiseRepository franchiseRepository){
     this.franchiseRepository = franchiseRepository;
     }
 
-    public List<Franchise> getAllFranchises(){
-        return franchiseRepository.findAll();
+    public List<FranchiseDTO> getAllFranchises(){
+        List<Franchise> franchises = franchiseRepository.findAll();
+
+        FranchiseDTO franchiseDTOConverter = new FranchiseDTO();  // Create an instance to call non-static convertToDTO()
+
+        return franchises.stream()
+                .map(franchiseDTOConverter::convertToDTO)
+                .collect(Collectors.toList());
     }
     public Optional<Franchise> getSpecificFranchise(Long id){
         return  franchiseRepository.findById(id);
