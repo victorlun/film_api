@@ -1,6 +1,6 @@
 package com.film_api.controller;
 
-import com.film_api.dto.MovieCharacterDTO;
+import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.model.MovieCharacter;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;

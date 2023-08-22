@@ -1,6 +1,6 @@
 package com.film_api.service;
 
-import com.film_api.dto.MovieCharacterDTO;
+import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.mapper.MovieCharacterMapper;
 import com.film_api.model.MovieCharacter;
 import com.film_api.repository.MovieCharacterRepository;

@@ -1,6 +1,6 @@
 package com.film_api.mapper;
 
-import com.film_api.dto.FranchiseDTO;
+import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.model.Franchise;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

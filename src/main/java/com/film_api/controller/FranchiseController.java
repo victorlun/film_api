@@ -1,6 +1,6 @@
 package com.film_api.controller;
 
-import com.film_api.dto.FranchiseDTO;
+import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.model.Franchise;
 import com.film_api.service.FranchiseService;
 import io.swagger.v3.oas.annotations.Operation;

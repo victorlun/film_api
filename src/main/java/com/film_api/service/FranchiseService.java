@@ -1,6 +1,6 @@
 package com.film_api.service;
 
-import com.film_api.dto.FranchiseDTO;
+import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.mapper.FranchiseMapper;
 import com.film_api.model.Franchise;
 import com.film_api.repository.FranchiseRepository;

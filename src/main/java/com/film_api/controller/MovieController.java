@@ -1,6 +1,6 @@
 package com.film_api.controller;
 
-import com.film_api.dto.MovieDTO;
+import com.film_api.model.dto.MovieDTO;
 import com.film_api.model.Movie;
 import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
