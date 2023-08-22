@@ -36,9 +36,14 @@ public class FranchiseService {
                 .map(franchiseDTOConverter::convertToDTO)
                 .collect(Collectors.toList());
     }
-    public Optional<Franchise> getSpecificFranchise(Long id){
-        return  franchiseRepository.findById(id);
+    public Optional<FranchiseDTO> getSpecificFranchise(Long id) {
+        Optional<Franchise> franchise = franchiseRepository.findById(id);
+
+        FranchiseDTO franchiseDTOConverter = new FranchiseDTO();  // Create an instance to call non-static convertToDTO()
+
+        return franchise.map(franchiseDTOConverter::convertToDTO);  // Convert to FranchiseDTO if present
     }
+
     public Franchise createFranchise(Franchise franchise){
         return franchiseRepository.save(franchise);
     }

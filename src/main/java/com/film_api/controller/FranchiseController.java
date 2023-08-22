@@ -31,7 +31,7 @@ public class FranchiseController {
 
     @Operation(summary = "Get specific franchise")
     @GetMapping("{id}")
-    public ResponseEntity<Franchise> getById(@PathVariable Long id) {
+    public ResponseEntity<FranchiseDTO> getById(@PathVariable Long id) {
         return franchiseService.getSpecificFranchise(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
