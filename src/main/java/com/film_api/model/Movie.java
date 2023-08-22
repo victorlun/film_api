@@ -1,44 +1,71 @@
 package com.film_api.model;
+
 import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "movie")
+@Schema(description = "Represents a movie.")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID of the movie.", example = "1")
     private long id;
 
     @Column(name = "title")
+    @Schema(description = "Title of the movie.", example = "Spider-man: Homecoming")
     private String title;
 
     @Column(name = "genre")
+    @Schema(description = "Genre of the movie.", example = "Sci-fi")
     private String genre;
 
     @Column(name = "release_year")
+    @Schema(description = "Release year of the movie.", example = "2012")
     private String releaseYear;
 
     @Column(name = "director")
+    @Schema(description = "Director of the movie.", example = "Lana Wachowski")
     private String director;
 
     @Column(name = "picture")
+    @Schema(description = "URL to the movie's picture.", example = "https://example.com/movie.jpg")
     private String picture;
 
     @Column(name = "trailer")
+    @Schema(description = "URL to the movie's trailer.", example = "https://example.com/trailer.mp4")
     private String trailer;
 
     @ManyToMany(mappedBy = "playedInMovies")
+    @Schema(description = "Characters in the movie.")
+    @ArraySchema(schema = @Schema(implementation = MovieCharacter.class))
     Set<MovieCharacter> charactersInMovie;
 
     @ManyToOne
-    @JoinColumn(name="franchise_id", nullable=true)
+    @JoinColumn(name = "franchise_id", nullable = true)
+    @Schema(description = "Franchise to which the movie belongs.")
     private Franchise franchise;
 
+    /**
+     * Default constructor.
+     */
     public Movie() {
-
     }
 
+    /**
+     * Constructor to create a new movie.
+     *
+     * @param title       Title of the movie. (Example: "The Matrix")
+     * @param genre       Genre of the movie. (Example: "Science Fiction")
+     * @param releaseYear Release year of the movie. (Example: "1999")
+     * @param director    Director of the movie. (Example: "Lana Wachowski")
+     * @param picture     URL to the movie's picture. (Example: "https://example.com/movie.jpg")
+     * @param trailer     URL to the movie's trailer. (Example: "https://example.com/trailer.mp4")
+     */
     public Movie(String title, String genre, String releaseYear, String director, String picture, String trailer) {
         this.title = title;
         this.genre = genre;
