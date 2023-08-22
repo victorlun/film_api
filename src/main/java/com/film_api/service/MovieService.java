@@ -37,7 +37,7 @@ public class MovieService {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
         if (optionalMovie.isPresent()){
             Movie movie = optionalMovie.get();
-            movie.setTitle(optionalMovie.get().getTitle());
+            movie.setTitle(movieDetails.getTitle());
             movie.setDirector(movieDetails.getDirector());
             movie.setGenre(movieDetails.getGenre());
             movie.setPicture(movie.getPicture());
