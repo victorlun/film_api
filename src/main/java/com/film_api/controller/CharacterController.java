@@ -35,7 +35,7 @@ public class CharacterController {
 
     @Operation(summary = "Get a specific character by ID")
     @GetMapping("{id}")
-    public ResponseEntity<MovieCharacter> getSpecificCharacter(@PathVariable Long id) {
+    public ResponseEntity<MovieCharacterDTO> getSpecificCharacter(@PathVariable Long id) {
         return characterService.getCharacterById(id)
                 .map(character -> new ResponseEntity<>(character, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -65,7 +65,7 @@ public class CharacterController {
     @Operation(summary = "Delete a character")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCharacter(@PathVariable Long id) {
-        Optional<MovieCharacter> character = characterService.getCharacterById(id);
+        Optional<MovieCharacterDTO> character = characterService.getCharacterById(id);
         String name = character.get().getName();
         try {
             characterService.deleteCharacter(id);

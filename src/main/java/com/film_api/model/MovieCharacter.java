@@ -1,9 +1,13 @@
 package com.film_api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
+// Auto-generated getters and setters
+@Getter
+@Setter
 @Entity
 @Table(name = "character")
 public class MovieCharacter {
