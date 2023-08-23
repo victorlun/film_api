@@ -65,6 +65,10 @@ public class Franchise {
         return description;
     }
 
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
     @Override
     public String toString() {
         return "Character [id=" + id + ", name=" + name + ", description=" + description + "]";
