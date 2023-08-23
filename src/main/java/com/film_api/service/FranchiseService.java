@@ -1,5 +1,7 @@
 package com.film_api.service;
 
+import com.film_api.model.dto.FranchiseDTO;
+import com.film_api.mapper.FranchiseMapper;
 import com.film_api.model.Franchise;
 import com.film_api.repository.FranchiseRepository;
 import jakarta.persistence.EntityManager;
@@ -10,24 +12,38 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FranchiseService {
     private final FranchiseRepository franchiseRepository;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private FranchiseMapper franchiseMapper;
 
     @Autowired
     public FranchiseService(FranchiseRepository franchiseRepository){
     this.franchiseRepository = franchiseRepository;
     }
 
-    public List<Franchise> getAllFranchises(){
-        return franchiseRepository.findAll();
+    public List<FranchiseDTO> getAllFranchises(){
+        List<Franchise> franchises = franchiseRepository.findAll();
+
+        FranchiseDTO franchiseDTOConverter = new FranchiseDTO();  // Create an instance to call non-static convertToDTO()
+
+        return franchises.stream()
+                .map(franchiseDTOConverter::convertToDTO)
+                .collect(Collectors.toList());
     }
-    public Optional<Franchise> getSpecificFranchise(Long id){
-        return  franchiseRepository.findById(id);
+    public Optional<FranchiseDTO> getSpecificFranchise(Long id) {
+        Optional<Franchise> franchise = franchiseRepository.findById(id);
+
+        FranchiseDTO franchiseDTOConverter = new FranchiseDTO();  // Create an instance to call non-static convertToDTO()
+
+        return franchise.map(franchiseDTOConverter::convertToDTO);  // Convert to FranchiseDTO if present
     }
+
     public Franchise createFranchise(Franchise franchise){
         return franchiseRepository.save(franchise);
     }

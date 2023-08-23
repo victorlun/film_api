@@ -1,6 +1,6 @@
 package com.film_api.service;
 
-import com.film_api.dto.MovieCharacterDTO;
+import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.mapper.MovieCharacterMapper;
 import com.film_api.model.MovieCharacter;
 import com.film_api.repository.MovieCharacterRepository;
@@ -39,6 +39,7 @@ public class CharacterService {
         Optional<MovieCharacter> character = movieCharacterRepository.findById(id);
         return character.map(movieCharacter -> movieCharacterMapper.characterToCharacterDTO(movieCharacter));
     }
+
 
     public MovieCharacter createCharacter(MovieCharacter movieCharacter) {
         return movieCharacterRepository.save(movieCharacter);

@@ -1,5 +1,6 @@
 package com.film_api.controller;
 
+import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.model.Franchise;
 import com.film_api.service.FranchiseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,14 +24,14 @@ public class FranchiseController {
 
     @Operation(summary = "Get all franchises")
     @GetMapping
-    public ResponseEntity<List<Franchise>> getAll() {
-        List<Franchise> franchises = franchiseService.getAllFranchises();
+    public ResponseEntity<List<FranchiseDTO>> getAll() {
+        List<FranchiseDTO> franchises = franchiseService.getAllFranchises();
         return ResponseEntity.ok(franchises);
     }
 
     @Operation(summary = "Get specific franchise")
     @GetMapping("{id}")
-    public ResponseEntity<Franchise> getById(@PathVariable Long id) {
+    public ResponseEntity<FranchiseDTO> getById(@PathVariable Long id) {
         return franchiseService.getSpecificFranchise(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

@@ -1,7 +1,7 @@
 package com.film_api.mapper;
 
-import com.film_api.dto.MovieCharacterDTO;
-import com.film_api.dto.MovieDTO;
+import com.film_api.model.dto.MovieCharacterDTO;
+import com.film_api.model.dto.MovieDTO;
 import com.film_api.model.Movie;
 import com.film_api.model.MovieCharacter;
 import org.mapstruct.Mapper;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Mapper(componentModel = "spring", uses = MovieMapper.class) // add uses = MovieMapper.class to reuse the MovieMapper
 public interface MovieCharacterMapper {
-    @Mapping(source = "name", target = "name")
+    @Mapping(source = "playedInMovies", target = "playedInMovies")
     MovieCharacterDTO characterToCharacterDTO(MovieCharacter movieCharacter);
     Character characterDTOtoCharacter(MovieCharacterDTO movieCharacterDTO);
 
