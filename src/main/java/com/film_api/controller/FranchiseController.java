@@ -56,6 +56,13 @@ public class FranchiseController {
         }
     }
 
+    @Operation(summary = "Update the list of movies that appear in a given franchise.")
+    @PutMapping("{id}/movies")
+    public ResponseEntity<Void> updateMoviesInFranchise(@PathVariable Long id, @RequestBody int[] moviesId) {
+        franchiseService.updateFranchiseRelation(id, moviesId);
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(summary = "Delete a franchise")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteFranchise(@PathVariable Long id) {

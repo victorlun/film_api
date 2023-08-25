@@ -1,10 +1,12 @@
 package com.film_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,9 +27,11 @@ public class Franchise {
     private String description;
 
     @OneToMany(mappedBy = "franchise")
+    @JsonIgnore
     @Schema(description = "Movies in the franchise.")
     @ArraySchema(schema = @Schema(implementation = Movie.class))
     private Set<Movie> movies;
+
 
     /**
      * Default constructor.
@@ -68,6 +72,19 @@ public class Franchise {
     public Set<Movie> getMovies() {
         return movies;
     }
+
+    public void setMovies(Set<Movie> newMovies) {
+        if (this.movies == null) {
+            this.movies = new HashSet<>();
+        }
+
+        // Remove movies that are not in the newMovies set
+        this.movies.retainAll(newMovies);
+
+        // Add new movies from the newMovies set
+        this.movies.addAll(newMovies);
+    }
+
 
     @Override
     public String toString() {

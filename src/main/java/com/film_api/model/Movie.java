@@ -49,7 +49,7 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "character_id"))
     Set<MovieCharacter> charactersInMovie;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "franchise_id", nullable = true)
     @Schema(description = "Franchise to which the movie belongs.")
     private Franchise franchise;
@@ -129,6 +129,24 @@ public class Movie {
 
     public void setTrailer(String newTrailer) {
         this.trailer = newTrailer;
+    }
+
+    public Franchise getFranchise() {
+        return this.franchise;
+    }
+
+    public void setFranchise(Franchise franchise) {
+        // Handle the reverse relationship
+        if (this.franchise != null) {
+            this.franchise.getMovies().remove(this);
+        }
+
+        this.franchise = franchise;
+
+        // Handle the forward relationship
+        if (franchise != null && !franchise.getMovies().contains(this)) {
+            franchise.getMovies().add(this);
+        }
     }
 
     @Override

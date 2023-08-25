@@ -1,30 +1,33 @@
 package com.film_api.service;
 
+import com.film_api.model.Movie;
 import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.mapper.FranchiseMapper;
 import com.film_api.model.Franchise;
 import com.film_api.repository.FranchiseRepository;
+import com.film_api.repository.MovieRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class FranchiseService {
     private final FranchiseRepository franchiseRepository;
+    private final MovieRepository movieRepository;
     @Autowired
     private EntityManager entityManager;
     @Autowired
     private FranchiseMapper franchiseMapper;
 
     @Autowired
-    public FranchiseService(FranchiseRepository franchiseRepository){
-    this.franchiseRepository = franchiseRepository;
+    public FranchiseService(FranchiseRepository franchiseRepository, MovieRepository movieRepository){
+        this.franchiseRepository = franchiseRepository;
+        this.movieRepository = movieRepository;
     }
 
     public List<FranchiseDTO> getAllFranchises(){
@@ -36,6 +39,7 @@ public class FranchiseService {
                 .map(franchiseDTOConverter::convertToDTO)
                 .collect(Collectors.toList());
     }
+
     public Optional<FranchiseDTO> getSpecificFranchise(Long id) {
         Optional<Franchise> franchise = franchiseRepository.findById(id);
 
@@ -60,15 +64,24 @@ public class FranchiseService {
             throw new RuntimeException("Franchise not found with id: " + id);
         }
     }
-    /*
-    public void deleteFranchise(Long id){
-        if(franchiseRepository.existsById(id)){
-            franchiseRepository.deleteById(id);
-        }else{
-            throw new RuntimeException("Franchise not found with ID: " + id);
+    @Transactional
+    public void updateFranchiseRelation(Long franchiseId, int[] movieIds) {
+        Franchise franchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new RuntimeException("Franchise not found"));
+
+        Set<Movie> movies = new HashSet<>();
+        for (int id : movieIds) {
+            Movie movie = movieRepository.findById((long) id)
+                    .orElseThrow(() -> new RuntimeException("Movie not found"));
+            movies.add(movie);
         }
+
+        // Update both sides of the relationship
+        franchise.setMovies(movies);
+        movies.forEach(movie -> movie.setFranchise(franchise));
+
+        franchiseRepository.save(franchise);
     }
-     */
 
     @Transactional
     public void deleteFranchise(Long id) {
@@ -84,4 +97,4 @@ public class FranchiseService {
     public List<Franchise> getFranchiseByName(String name){
         return franchiseRepository.findByName(name);
     }
-    }
+}
