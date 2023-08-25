@@ -115,7 +115,14 @@ public class MovieService {
         movie.setCharacters(characters);
         movieRepository.save(movie);
     }
-
+    public List<MovieDTO> getAllMoviesByFranchise(Long franchiseId) {
+        List<Movie> movies = movieRepository.findByFranchiseId(franchiseId);
+        // Convert to DTOs
+        List<MovieDTO> movieDTOs = movies.stream()
+                .map(movie -> movieMapper.movieToMovieDTO(movie))
+                .collect(Collectors.toList());
+        return movieDTOs;
+    }
 
 
 

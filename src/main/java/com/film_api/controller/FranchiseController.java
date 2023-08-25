@@ -1,8 +1,11 @@
 package com.film_api.controller;
 
+import com.film_api.model.Movie;
 import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.model.Franchise;
+import com.film_api.model.dto.MovieDTO;
 import com.film_api.service.FranchiseService;
+import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +19,12 @@ import java.util.List;
 public class FranchiseController {
 
     private final FranchiseService franchiseService;
+    private final MovieService movieService;
 
     @Autowired
-    public FranchiseController(FranchiseService franchiseService) {
+    public FranchiseController(FranchiseService franchiseService, MovieService movieService) {
         this.franchiseService = franchiseService;
+        this.movieService = movieService;
     }
 
     @Operation(summary = "Get all franchises")
@@ -36,6 +41,14 @@ public class FranchiseController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @Operation (summary = "Get all movies in a franchise")
+    @GetMapping("{id}/movies")
+    public ResponseEntity<List<MovieDTO>> getAllMovies(@PathVariable Long id){
+        List<MovieDTO> movies = movieService.getAllMoviesByFranchise(id);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+        }
+
 
     @Operation(summary = "Post a franchise")
     @PostMapping
