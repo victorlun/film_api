@@ -65,25 +65,27 @@ public class FranchiseService {
         }
     }
 
-    public Franchise updateFranchiseRelation(Long id, int[] movieIDs){
-        Optional<Franchise> optionalFranchise = franchiseRepository.findById(id);
-
-        if (optionalFranchise.isPresent()){
-            List<Movie> movieList = new ArrayList<>();
-            for (int movieID : movieIDs) {
-                Optional<Movie> optionalMovie = movieRepository.findById((long) movieID);
-                if (optionalMovie.isPresent()) {
-                    Movie movie = optionalMovie.get();
-                    movie.setFranchise(optionalFranchise.get());
-                    movieList.add(movie);
-                }
-            }
-            Franchise franchise = optionalFranchise.get();
-            franchise.setMovies(new HashSet<>(movieList));
-            return franchiseRepository.save(franchise);
-        }else{
-            throw new RuntimeException("Franchise not found with id: " + id);
+    public void updateFranchiseRelation(Long franchiseId, int[] moveIds) {
+        Franchise franchise = null;
+        try {
+            franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new Exception("Movie not found"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+        Set<Movie> movies = new HashSet<>();
+        for (int id : moveIds) {
+            Movie movie = null;
+            try {
+                movie = movieRepository.findById((long) id)
+                        .orElseThrow(() -> new Exception("   f"));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            movies.add(movie);
+        }
+
+        franchise.setMovies(movies);
+        franchiseRepository.save(franchise);
     }
 
     /*

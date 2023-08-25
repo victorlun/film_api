@@ -56,15 +56,11 @@ public class FranchiseController {
         }
     }
 
-    @Operation(summary = "Update a franchise")
-    @PutMapping("relations/{id}")
-    public ResponseEntity<Franchise> updateFranchiseRelation(@PathVariable Long id, @RequestBody int[] movieIDs) {
-        try {
-            Franchise updatedFranchise = franchiseService.updateFranchiseRelation(id, movieIDs);
-            return ResponseEntity.ok(updatedFranchise);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @Operation(summary = "Update the list of movies that appear in a given franchise.")
+    @PutMapping("{id}/movies")
+    public ResponseEntity<Void> updateMoviesInFranchise(@PathVariable Long id, @RequestBody int[] moviesId) {
+        franchiseService.updateFranchiseRelation(id, moviesId);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Delete a franchise")
