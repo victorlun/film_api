@@ -24,7 +24,7 @@ public class MovieService {
     private final MovieCharacterRepository movieCharacterRepository;
 
     @Autowired
-    public MovieService(MovieRepository movieRepository, MovieCharacterRepository movieCharacterRepository){
+    public MovieService(MovieRepository movieRepository, MovieCharacterRepository movieCharacterRepository) {
         this.movieRepository = movieRepository;
         this.movieCharacterRepository = movieCharacterRepository;
     }
@@ -34,23 +34,25 @@ public class MovieService {
     @Autowired
     private EntityManager entityManager;
 
-    public List<MovieDTO> getAllMovies(){
+    public List<MovieDTO> getAllMovies() {
         List<Movie> movies = movieRepository.findAll();
         return movies.stream()
                 .map(movieMapper::movieToMovieDTO)
                 .collect(Collectors.toList());
     }
+
     public Optional<MovieDTO> getMovieById(Long id) {
         Optional<Movie> movieOptional = movieRepository.findById(id);
         return movieOptional.map(movie -> movieMapper.movieToMovieDTO(movie));
     }
 
-    public Movie createMovie(Movie movie){
+    public Movie createMovie(Movie movie) {
         return movieRepository.save(movie);
     }
-    public Movie updateMovie (Long id, Movie movieDetails){
+
+    public Movie updateMovie(Long id, Movie movieDetails) {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
-        if (optionalMovie.isPresent()){
+        if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
             movie.setTitle(movieDetails.getTitle());
             movie.setDirector(movieDetails.getDirector());
@@ -59,20 +61,10 @@ public class MovieService {
             movie.setReleaseYear(movieDetails.getReleaseYear());
             movie.setTrailer(movieDetails.getTrailer());
             return movieRepository.save(movie);
-        }else{
-            throw new RuntimeException("Movie not found with id: "+ id);
-        }
-    }
-
-    /*  Old deleteMovie function
-    public void deleteMovie(Long id){
-        if(movieRepository.existsById(id)){
-            movieRepository.deleteById(id);
-        }else {
+        } else {
             throw new RuntimeException("Movie not found with id: " + id);
         }
     }
-    */
 
     @Transactional
     public void deleteMovie(Long id) {
@@ -88,7 +80,7 @@ public class MovieService {
     }
 
 
-    public List<Movie> getMovieByTitle(String title){
+    public List<Movie> getMovieByTitle(String title) {
         return movieRepository.findByTitle(title);
     }
 
@@ -111,12 +103,10 @@ public class MovieService {
             }
             characters.add(character);
         }
-        
+
         movie.setCharacters(characters);
         movieRepository.save(movie);
     }
-
-
 
 
 }

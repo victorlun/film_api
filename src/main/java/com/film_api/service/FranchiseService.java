@@ -25,12 +25,12 @@ public class FranchiseService {
     private FranchiseMapper franchiseMapper;
 
     @Autowired
-    public FranchiseService(FranchiseRepository franchiseRepository, MovieRepository movieRepository){
+    public FranchiseService(FranchiseRepository franchiseRepository, MovieRepository movieRepository) {
         this.franchiseRepository = franchiseRepository;
         this.movieRepository = movieRepository;
     }
 
-    public List<FranchiseDTO> getAllFranchises(){
+    public List<FranchiseDTO> getAllFranchises() {
         List<Franchise> franchises = franchiseRepository.findAll();
 
         FranchiseDTO franchiseDTOConverter = new FranchiseDTO();  // Create an instance to call non-static convertToDTO()
@@ -48,22 +48,23 @@ public class FranchiseService {
         return franchise.map(franchiseDTOConverter::convertToDTO);  // Convert to FranchiseDTO if present
     }
 
-    public Franchise createFranchise(Franchise franchise){
+    public Franchise createFranchise(Franchise franchise) {
         return franchiseRepository.save(franchise);
     }
 
-    public Franchise updateFranchise(Long id, Franchise franchiseDetails){
+    public Franchise updateFranchise(Long id, Franchise franchiseDetails) {
         Optional<Franchise> optionalFranchise = franchiseRepository.findById(id);
 
-        if (optionalFranchise.isPresent()){
+        if (optionalFranchise.isPresent()) {
             Franchise franchise = optionalFranchise.get();
             franchise.setName(franchiseDetails.getName());
             franchise.setDescription(franchiseDetails.getDescription());
             return franchiseRepository.save(franchise);
-        }else{
+        } else {
             throw new RuntimeException("Franchise not found with id: " + id);
         }
     }
+
     @Transactional
     public void updateFranchiseRelation(Long franchiseId, int[] movieIds) {
         Franchise franchise = franchiseRepository.findById(franchiseId)
@@ -94,7 +95,7 @@ public class FranchiseService {
         deleteFranchiseQuery.executeUpdate();
     }
 
-    public List<Franchise> getFranchiseByName(String name){
+    public List<Franchise> getFranchiseByName(String name) {
         return franchiseRepository.findByName(name);
     }
 }

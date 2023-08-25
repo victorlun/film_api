@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
     List<Franchise> findByName(String name);
-
 }

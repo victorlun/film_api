@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.film_api.repository")
 public class FilmApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FilmApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FilmApiApplication.class, args);
+    }
 
 }

@@ -9,13 +9,13 @@ import org.mapstruct.Mapping;
 
 import java.util.Set;
 
-@Mapper(componentModel = "spring", uses = MovieMapper.class) // add uses = MovieMapper.class to reuse the MovieMapper
+@Mapper(componentModel = "spring", uses = MovieMapper.class)
 public interface MovieCharacterMapper {
     @Mapping(source = "playedInMovies", target = "playedInMovies")
     MovieCharacterDTO characterToCharacterDTO(MovieCharacter movieCharacter);
+
     Character characterDTOtoCharacter(MovieCharacterDTO movieCharacterDTO);
 
-    // Add this method for mapping Set<Movie> to Set<MovieDTO>
     Set<MovieDTO> moviesToMovieDTOs(Set<Movie> movies);
 }
 

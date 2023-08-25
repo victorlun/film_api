@@ -32,7 +32,6 @@ public class Franchise {
     @ArraySchema(schema = @Schema(implementation = Movie.class))
     private Set<Movie> movies;
 
-
     /**
      * Default constructor.
      */
@@ -57,6 +56,7 @@ public class Franchise {
     public void setName(String newName) {
         this.name = newName;
     }
+
     public String getName() {
         return name;
     }

@@ -23,6 +23,7 @@ public class CharacterService {
     private EntityManager entityManager;
     @Autowired
     private MovieCharacterMapper movieCharacterMapper;
+
     @Autowired
     public CharacterService(MovieCharacterRepository movieCharacterRepository) {
         this.movieCharacterRepository = movieCharacterRepository;
