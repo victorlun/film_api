@@ -84,4 +84,11 @@ public class CharacterService {
                 .collect(Collectors.toList());
         return characterDTOs;
     }
+    public List<MovieCharacterDTO> getAllCharactersByFranchiseId(Long franchiseId) {
+        List<MovieCharacter> movieCharacters = movieCharacterRepository.findByPlayedInMovies_Franchise_Id(franchiseId);
+        List<MovieCharacterDTO> characterDTOList = movieCharacters.stream()
+                .map(movieCharacter -> movieCharacterMapper.characterToCharacterDTO(movieCharacter))
+                .toList();
+        return characterDTOList;
+    }
 }

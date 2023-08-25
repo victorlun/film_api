@@ -1,9 +1,10 @@
 package com.film_api.controller;
 
-import com.film_api.model.Movie;
 import com.film_api.model.dto.FranchiseDTO;
 import com.film_api.model.Franchise;
+import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.model.dto.MovieDTO;
+import com.film_api.service.CharacterService;
 import com.film_api.service.FranchiseService;
 import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,11 +21,13 @@ public class FranchiseController {
 
     private final FranchiseService franchiseService;
     private final MovieService movieService;
+    private final CharacterService characterService;
 
     @Autowired
-    public FranchiseController(FranchiseService franchiseService, MovieService movieService) {
+    public FranchiseController(FranchiseService franchiseService, MovieService movieService, CharacterService characterService) {
         this.franchiseService = franchiseService;
         this.movieService = movieService;
+        this.characterService = characterService;
     }
 
     @Operation(summary = "Get all franchises")
@@ -48,6 +51,8 @@ public class FranchiseController {
         List<MovieDTO> movies = movieService.getAllMoviesByFranchise(id);
         return new ResponseEntity<>(movies, HttpStatus.OK);
         }
+
+
 
 
     @Operation(summary = "Post a franchise")
@@ -78,5 +83,11 @@ public class FranchiseController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+    @Operation(summary = "Get all characters in a franchise")
+    @GetMapping("/{id}/characters")
+    public ResponseEntity<List<MovieCharacterDTO>> getCharactersByFranchise(@PathVariable Long id) {
+        List<MovieCharacterDTO> characters = characterService.getAllCharactersByFranchiseId(id);
+        return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 }
