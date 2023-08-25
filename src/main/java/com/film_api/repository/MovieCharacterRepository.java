@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface MovieCharacterRepository extends JpaRepository<MovieCharacter, Long> {
     List<MovieCharacter> findByName(String name);
-}
+    List<MovieCharacter> findByPlayedInMovies_Id(Long movieId);
+    }
+
+

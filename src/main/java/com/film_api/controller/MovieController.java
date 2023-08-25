@@ -1,7 +1,9 @@
 package com.film_api.controller;
 
+import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.model.dto.MovieDTO;
 import com.film_api.model.Movie;
+import com.film_api.service.CharacterService;
 import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,10 +19,11 @@ import java.util.List;
 @RequestMapping(path = "api/v1/movies")
 public class MovieController {
     private final MovieService movieService;
-
+    private final CharacterService characterService;
     @Autowired
-    public MovieController(MovieService movieService){
+    public MovieController(MovieService movieService, CharacterService characterService){
         this.movieService = movieService;
+        this.characterService = characterService;
     }
 
     @Operation(summary = "Get all movies")
@@ -42,6 +45,14 @@ public class MovieController {
                 .map(movieDTO -> new ResponseEntity<>(movieDTO, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @Operation(summary = "Get all characters in a movie")
+    @GetMapping("/movies/{movieId}/characters")
+    public ResponseEntity<List<MovieCharacterDTO>> getAllCharactersByMovie(@PathVariable Long movieId) {
+        List<MovieCharacterDTO> characters = characterService.getAllCharactersByMovie(movieId);
+        return new ResponseEntity<>(characters, HttpStatus.OK);
+    }
+
 
 
     @Operation(summary = "Post a movie")
