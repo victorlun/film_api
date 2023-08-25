@@ -67,10 +67,15 @@ public class FranchiseService {
 
     @Transactional
     public void updateFranchiseRelation(Long franchiseId, int[] movieIds) {
+
+        // Find the franchise by ID or throw an exception if not found
         Franchise franchise = franchiseRepository.findById(franchiseId)
                 .orElseThrow(() -> new RuntimeException("Franchise not found"));
 
+        // Create a set to store the new movies
         Set<Movie> movies = new HashSet<>();
+
+        // Fetch movies by their IDs and add them to the set
         for (int id : movieIds) {
             Movie movie = movieRepository.findById((long) id)
                     .orElseThrow(() -> new RuntimeException("Movie not found"));
@@ -81,6 +86,7 @@ public class FranchiseService {
         franchise.setMovies(movies);
         movies.forEach(movie -> movie.setFranchise(franchise));
 
+        // Save the updated franchise
         franchiseRepository.save(franchise);
     }
 
