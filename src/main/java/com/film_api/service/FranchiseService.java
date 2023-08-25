@@ -64,39 +64,24 @@ public class FranchiseService {
             throw new RuntimeException("Franchise not found with id: " + id);
         }
     }
+    @Transactional
+    public void updateFranchiseRelation(Long franchiseId, int[] movieIds) {
+        Franchise franchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new RuntimeException("Franchise not found"));
 
-    public void updateFranchiseRelation(Long franchiseId, int[] moveIds) {
-        Franchise franchise = null;
-        try {
-            franchise = franchiseRepository.findById(franchiseId).orElseThrow(() -> new Exception("Movie not found"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
         Set<Movie> movies = new HashSet<>();
-        for (int id : moveIds) {
-            Movie movie = null;
-            try {
-                movie = movieRepository.findById((long) id)
-                        .orElseThrow(() -> new Exception("   f"));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        for (int id : movieIds) {
+            Movie movie = movieRepository.findById((long) id)
+                    .orElseThrow(() -> new RuntimeException("Movie not found"));
             movies.add(movie);
         }
 
+        // Update both sides of the relationship
         franchise.setMovies(movies);
+        movies.forEach(movie -> movie.setFranchise(franchise));
+
         franchiseRepository.save(franchise);
     }
-
-    /*
-    public void deleteFranchise(Long id){
-        if(franchiseRepository.existsById(id)){
-            franchiseRepository.deleteById(id);
-        }else{
-            throw new RuntimeException("Franchise not found with ID: " + id);
-        }
-    }
-     */
 
     @Transactional
     public void deleteFranchise(Long id) {

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,6 +31,7 @@ public class Franchise {
     @Schema(description = "Movies in the franchise.")
     @ArraySchema(schema = @Schema(implementation = Movie.class))
     private Set<Movie> movies;
+
 
     /**
      * Default constructor.
@@ -71,9 +73,18 @@ public class Franchise {
         return movies;
     }
 
-    public void setMovies(Set<Movie> newSet) {
-        this.movies = newSet;
+    public void setMovies(Set<Movie> newMovies) {
+        if (this.movies == null) {
+            this.movies = new HashSet<>();
+        }
+
+        // Remove movies that are not in the newMovies set
+        this.movies.retainAll(newMovies);
+
+        // Add new movies from the newMovies set
+        this.movies.addAll(newMovies);
     }
+
 
     @Override
     public String toString() {

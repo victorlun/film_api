@@ -45,7 +45,7 @@ public class Movie {
     @ArraySchema(schema = @Schema(implementation = MovieCharacter.class))
     Set<MovieCharacter> charactersInMovie;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "franchise_id", nullable = true)
     @Schema(description = "Franchise to which the movie belongs.")
     private Franchise franchise;
@@ -131,8 +131,18 @@ public class Movie {
         return this.franchise;
     }
 
-    public void setFranchise(Franchise newFranchise) {
-        this.franchise = newFranchise;
+    public void setFranchise(Franchise franchise) {
+        // Handle the reverse relationship
+        if (this.franchise != null) {
+            this.franchise.getMovies().remove(this);
+        }
+
+        this.franchise = franchise;
+
+        // Handle the forward relationship
+        if (franchise != null && !franchise.getMovies().contains(this)) {
+            franchise.getMovies().add(this);
+        }
     }
 
     @Override
