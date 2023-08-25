@@ -43,10 +43,10 @@ public class CharacterController {
 
     @Operation(summary = "Create a new character")
     @PostMapping
-    public ResponseEntity<MovieCharacter> createCharacter(@RequestBody MovieCharacter movieCharacter) {
+    public ResponseEntity<MovieCharacterDTO> createCharacter(@RequestBody MovieCharacterDTO movieCharacterDto) {
         try {
-            MovieCharacter newMovieCharacter = characterService.createCharacter(movieCharacter);
-            return new ResponseEntity<>(newMovieCharacter, HttpStatus.CREATED);
+            characterService.createCharacter(movieCharacterDto);
+            return new ResponseEntity<>(movieCharacterDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -46,8 +46,9 @@ public class MovieService {
         return movieOptional.map(movie -> movieMapper.movieToMovieDTO(movie));
     }
 
-    public Movie createMovie(Movie movie) {
-        return movieRepository.save(movie);
+    public void createMovie(MovieDTO movieDto) {
+        Movie movie = movieDto.convertDTOToMovie();
+        movieRepository.save(movie);
     }
 
     public Movie updateMovie(Long id, Movie movieDetails) {

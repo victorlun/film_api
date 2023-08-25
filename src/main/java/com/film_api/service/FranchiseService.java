@@ -48,8 +48,9 @@ public class FranchiseService {
         return franchise.map(franchiseDTOConverter::convertToDTO);  // Convert to FranchiseDTO if present
     }
 
-    public Franchise createFranchise(Franchise franchise) {
-        return franchiseRepository.save(franchise);
+    public void createFranchise(FranchiseDTO franchiseDto) {
+        Franchise franchise = franchiseDto.convertDTOToFranchise();
+        franchiseRepository.save(franchise);
     }
 
     public Franchise updateFranchise(Long id, Franchise franchiseDetails) {

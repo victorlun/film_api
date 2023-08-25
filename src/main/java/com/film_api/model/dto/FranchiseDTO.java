@@ -26,6 +26,20 @@ public class FranchiseDTO {
         return dto;
     }
 
+    public Franchise convertDTOToFranchise() {
+        Franchise franchise = new Franchise();
+        franchise.setName(this.getName());
+        franchise.setDescription(this.getDescription());
+        Set<MovieDTO> movieDto = this.getMovies();
+        if (movies != null) {
+            Set<Movie> movies = movieDto.stream()
+                    .map(this::convertMovieDTOToMovie)
+                    .collect(Collectors.toSet());
+            franchise.setMovies(movies);
+        }
+        return franchise;
+    }
+
     public MovieDTO convertMovieToDTO(Movie movie) {
         MovieDTO dto = new MovieDTO();
         //Populate MovieDTO
@@ -33,6 +47,14 @@ public class FranchiseDTO {
         dto.setGenre(movie.getGenre());
         dto.setReleaseYear(movie.getReleaseYear());
         return dto;
+    }
+
+    public Movie convertMovieDTOToMovie(MovieDTO movieDto) {
+        Movie movie = new Movie();
+        movie.setTitle(movieDto.getTitle());
+        movie.setGenre(movieDto.getGenre());
+        movie.setReleaseYear(movieDto.getReleaseYear());
+        return movie;
     }
 
 }

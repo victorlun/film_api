@@ -50,10 +50,10 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Bad Request")
     })
     @PostMapping
-    public ResponseEntity<Movie> postMovie(@RequestBody Movie movie) {
+    public ResponseEntity<MovieDTO> postMovie(@RequestBody MovieDTO movieDto) {
         try {
-            Movie newMovie = movieService.createMovie(movie);
-            return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
+            movieService.createMovie(movieDto);
+            return new ResponseEntity<>(movieDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

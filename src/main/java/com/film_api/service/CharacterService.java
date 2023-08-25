@@ -42,8 +42,9 @@ public class CharacterService {
     }
 
 
-    public MovieCharacter createCharacter(MovieCharacter movieCharacter) {
-        return movieCharacterRepository.save(movieCharacter);
+    public void createCharacter(MovieCharacterDTO movieCharacterDto) {
+        MovieCharacter movieCharacter = movieCharacterDto.convertDTOToCharacter();
+        movieCharacterRepository.save(movieCharacter);
     }
 
     public MovieCharacter updateCharacter(Long id, MovieCharacter movieCharacterDetails) {

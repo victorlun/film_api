@@ -39,9 +39,9 @@ public class FranchiseController {
 
     @Operation(summary = "Post a franchise")
     @PostMapping
-    public ResponseEntity<Franchise> postFranchise(@RequestBody Franchise franchise) {
-        Franchise savedFranchise = franchiseService.createFranchise(franchise);
-        return ResponseEntity.ok(savedFranchise);
+    public ResponseEntity<FranchiseDTO> postFranchise(@RequestBody FranchiseDTO franchiseDto) {
+        franchiseService.createFranchise(franchiseDto);
+        return ResponseEntity.ok(franchiseDto);
     }
 
 
