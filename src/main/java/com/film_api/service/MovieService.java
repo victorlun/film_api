@@ -1,8 +1,10 @@
 package com.film_api.service;
 
+import com.film_api.model.MovieCharacter;
 import com.film_api.model.dto.MovieDTO;
 import com.film_api.mapper.MovieMapper;
 import com.film_api.model.Movie;
+import com.film_api.repository.MovieCharacterRepository;
 import com.film_api.repository.MovieRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -10,17 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
     private final MovieRepository movieRepository;
+    private final MovieCharacterRepository movieCharacterRepository;
 
     @Autowired
-    public MovieService(MovieRepository movieRepository){
+    public MovieService(MovieRepository movieRepository, MovieCharacterRepository movieCharacterRepository){
         this.movieRepository = movieRepository;
+        this.movieCharacterRepository = movieCharacterRepository;
     }
 
     @Autowired
@@ -87,6 +93,28 @@ public class MovieService {
     }
 
 
+    public void updateCharacters(Long movieId, int[] characterIds) {
+        Movie movie = null;
+        try {
+            movie = movieRepository.findById(movieId).orElseThrow(() -> new Exception("Movie not found"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Set<MovieCharacter> characters = new HashSet<>();
+        for (int id : characterIds) {
+            MovieCharacter character = null;
+            try {
+                character = movieCharacterRepository.findById((long) id)
+                        .orElseThrow(() -> new Exception("   f"));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            characters.add(character);
+        }
+        
+        movie.setCharacters(characters);
+        movieRepository.save(movie);
+    }
 
 
 

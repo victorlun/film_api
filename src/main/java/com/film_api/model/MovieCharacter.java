@@ -34,11 +34,7 @@ public class MovieCharacter {
     @Schema(description = "Url of photo of character.", example = "https://en.wikipedia.org/wiki/Iron_Man_(2008_film)#/media/File:Iron_Man_(2008_film)_poster.jpg")
     private String photo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "characters_movies",
-            joinColumns = @JoinColumn(name = "character_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "charactersInMovie")
     @Schema(description = "Set of movies the character has played in.")
     Set<Movie> playedInMovies;
 
