@@ -85,4 +85,12 @@ public class MovieController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @Operation(summary = "Update the list of characters that appear in a given movie.")
+    @PutMapping("{id}/characters")
+    public ResponseEntity<Void> updateCharacters(@PathVariable Long id, @RequestBody int[] charactersIds) {
+        movieService.updateCharacters(id, charactersIds);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -28,7 +28,11 @@ public class Movie {
     @Column(name = "trailer")
     private String trailer;
 
-    @ManyToMany(mappedBy = "playedInMovies")
+    @ManyToMany(fetch = FetchType.EAGER) //cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "characters_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id"))
     Set<MovieCharacter> charactersInMovie;
 
     @ManyToOne
@@ -103,5 +107,13 @@ public class Movie {
     @Override
     public String toString() {
         return "Character [id=" + id + ", title=" + title + ", genre=" + genre + ", release_year=" + releaseYear + ", director=" + director + ", picture url=" + picture + ", trailer=" + trailer + "]";
+    }
+
+    public void setCharacters(Set<MovieCharacter> characters) {
+        this.charactersInMovie.clear();
+        System.out.println("Inside setCharacters method in movie");
+        if (characters != null) {
+            this.charactersInMovie.addAll(characters);
+        }
     }
 }

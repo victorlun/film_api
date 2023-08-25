@@ -26,12 +26,9 @@ public class MovieCharacter {
     @Column(name = "url_photo")
     private String photo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "characters_movies",
-            joinColumns = @JoinColumn(name = "character_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "charactersInMovie")
     Set<Movie> playedInMovies;
+
 
     public MovieCharacter() {
 
