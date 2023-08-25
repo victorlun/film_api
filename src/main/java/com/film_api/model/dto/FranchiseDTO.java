@@ -15,7 +15,6 @@ public class FranchiseDTO {
     private String description;
     private Set<MovieDTO> movies;
 
-
     public FranchiseDTO convertToDTO(Franchise franchise) {
         FranchiseDTO dto = new FranchiseDTO();
         dto.setName(franchise.getName());

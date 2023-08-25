@@ -127,6 +127,14 @@ public class Movie {
         this.trailer = newTrailer;
     }
 
+    public Franchise getFranchise() {
+        return this.franchise;
+    }
+
+    public void setFranchise(Franchise newFranchise) {
+        this.franchise = newFranchise;
+    }
+
     @Override
     public String toString() {
         return "Character [id=" + id + ", title=" + title + ", genre=" + genre + ", release_year=" + releaseYear + ", director=" + director + ", picture url=" + picture + ", trailer=" + trailer + "]";
