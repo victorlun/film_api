@@ -1,6 +1,6 @@
 package com.film_api.repository;
 
-import com.film_api.model.MovieCharacter;
+import com.film_api.model.movie_character.MovieCharacter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

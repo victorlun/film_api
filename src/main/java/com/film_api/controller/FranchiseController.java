@@ -1,9 +1,9 @@
 package com.film_api.controller;
 
-import com.film_api.model.dto.FranchiseDTO;
-import com.film_api.model.dto.FranchisePostDTO;
-import com.film_api.model.dto.MovieCharacterDTO;
-import com.film_api.model.dto.MovieDTO;
+import com.film_api.model.franchise.FranchiseDTO;
+import com.film_api.model.franchise.FranchisePostDTO;
+import com.film_api.model.movie_character.MovieCharacterDTO;
+import com.film_api.model.movie.MovieDTO;
 import com.film_api.service.CharacterService;
 import com.film_api.service.FranchiseService;
 import com.film_api.service.MovieService;

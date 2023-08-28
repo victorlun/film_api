@@ -1,8 +1,7 @@
 package com.film_api.controller;
 
-import com.film_api.model.dto.MovieCharacterDTO;
-import com.film_api.model.MovieCharacter;
-import com.film_api.model.dto.MovieCharacterPostDTO;
+import com.film_api.model.movie_character.MovieCharacterDTO;
+import com.film_api.model.movie_character.MovieCharacterPostDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

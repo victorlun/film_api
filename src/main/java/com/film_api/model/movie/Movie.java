@@ -1,6 +1,7 @@
-package com.film_api.model;
+package com.film_api.model.movie;
+import com.film_api.model.franchise.Franchise;
+import com.film_api.model.movie_character.MovieCharacter;
 import jakarta.persistence.*;
-import lombok.Setter;
 
 import java.util.Set;
 @Entity

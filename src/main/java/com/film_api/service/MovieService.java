@@ -1,10 +1,10 @@
 package com.film_api.service;
 
-import com.film_api.model.MovieCharacter;
-import com.film_api.model.dto.MovieDTO;
+import com.film_api.model.movie_character.MovieCharacter;
+import com.film_api.model.movie.MovieDTO;
 import com.film_api.mapper.MovieMapper;
-import com.film_api.model.Movie;
-import com.film_api.model.dto.MoviePostDTO;
+import com.film_api.model.movie.Movie;
+import com.film_api.model.movie.MoviePostDTO;
 import com.film_api.repository.MovieCharacterRepository;
 import com.film_api.repository.MovieRepository;
 import jakarta.persistence.EntityManager;

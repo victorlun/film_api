@@ -1,10 +1,9 @@
 package com.film_api.controller;
 
-import com.film_api.mapper.MovieMapper;
-import com.film_api.model.dto.MovieCharacterDTO;
-import com.film_api.model.dto.MovieDTO;
-import com.film_api.model.Movie;
-import com.film_api.model.dto.MoviePostDTO;
+import com.film_api.model.movie_character.MovieCharacterDTO;
+import com.film_api.model.movie.MovieDTO;
+import com.film_api.model.movie.Movie;
+import com.film_api.model.movie.MoviePostDTO;
 import com.film_api.service.CharacterService;
 import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/movies")

@@ -1,4 +1,5 @@
-package com.film_api.model;
+package com.film_api.model.movie_character;
+import com.film_api.model.movie.Movie;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

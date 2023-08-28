@@ -1,7 +1,7 @@
-package com.film_api.model.dto;
+package com.film_api.model.franchise;
 
-import com.film_api.model.Franchise;
-import com.film_api.model.Movie;
+import com.film_api.model.movie.Movie;
+import com.film_api.model.movie.MovieDTO;
 import lombok.Getter;
 import lombok.Setter;
 
