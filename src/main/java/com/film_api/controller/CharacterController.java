@@ -2,6 +2,7 @@ package com.film_api.controller;
 
 import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.model.MovieCharacter;
+import com.film_api.model.dto.MovieCharacterPostDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,24 +44,27 @@ public class CharacterController {
 
     @Operation(summary = "Create a new character")
     @PostMapping
-    public ResponseEntity<MovieCharacter> createCharacter(@RequestBody MovieCharacter movieCharacter) {
+    public ResponseEntity<MovieCharacterPostDTO> createCharacter(@RequestBody MovieCharacterPostDTO dto) {
         try {
-            MovieCharacter newMovieCharacter = characterService.createCharacter(movieCharacter);
-            return new ResponseEntity<>(newMovieCharacter, HttpStatus.CREATED);
+            MovieCharacterPostDTO newMovieCharacterDTO = characterService.createCharacter(dto);
+            return new ResponseEntity<>(newMovieCharacterDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @Operation(summary = "Update a character")
     @PutMapping("{id}")
-    public ResponseEntity<MovieCharacter> updateCharacter(@PathVariable Long id, @RequestBody MovieCharacter movieCharacterDetails) {
+    public ResponseEntity<MovieCharacterPostDTO> updateCharacter(@PathVariable Long id, @RequestBody MovieCharacterPostDTO dto) {
         try {
-            MovieCharacter updatedMovieCharacter = characterService.updateCharacter(id, movieCharacterDetails);
-            return ResponseEntity.ok(updatedMovieCharacter);
+            MovieCharacterPostDTO updatedMovieCharacterDTO = characterService.updateCharacter(id, dto);
+            return ResponseEntity.ok(updatedMovieCharacterDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
     @Operation(summary = "Delete a character")
     @DeleteMapping("{id}")

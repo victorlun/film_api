@@ -3,6 +3,7 @@ package com.film_api.service;
 import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.mapper.MovieCharacterMapper;
 import com.film_api.model.MovieCharacter;
+import com.film_api.model.dto.MovieCharacterPostDTO;
 import com.film_api.repository.MovieCharacterRepository;
 
 import jakarta.persistence.EntityManager;
@@ -41,25 +42,47 @@ public class CharacterService {
     }
 
 
-    public MovieCharacter createCharacter(MovieCharacter movieCharacter) {
-        return movieCharacterRepository.save(movieCharacter);
-    }
+    public MovieCharacterPostDTO createCharacter(MovieCharacterPostDTO dto) {
+        MovieCharacter movieCharacter = new MovieCharacter();
+        movieCharacter.setName(dto.getName());
+        movieCharacter.setAlias(dto.getAlias());
+        movieCharacter.setGender(dto.getGender());
+        movieCharacter.setPhoto(dto.getPhoto());
+        MovieCharacter savedCharacter = movieCharacterRepository.save(movieCharacter);
 
-    public MovieCharacter updateCharacter(Long id, MovieCharacter movieCharacterDetails) {
+        // convert saved MovieCharacter to MovieCharacterPostDTO
+        MovieCharacterPostDTO savedDto = new MovieCharacterPostDTO();
+        savedDto.setName(savedCharacter.getName());
+        savedDto.setAlias(savedCharacter.getAlias());
+        savedDto.setGender(savedCharacter.getGender());
+        savedDto.setPhoto(savedCharacter.getPhoto());
+
+        return savedDto;
+    }
+    public MovieCharacterPostDTO updateCharacter(Long id, MovieCharacterPostDTO dto) {
         Optional<MovieCharacter> optionalCharacter = movieCharacterRepository.findById(id);
 
         if (optionalCharacter.isPresent()) {
             MovieCharacter movieCharacter = optionalCharacter.get();
-            movieCharacter.setFullName(movieCharacterDetails.getName());
-            movieCharacter.setAlias(movieCharacterDetails.getAlias());
-            movieCharacter.setGender(movieCharacterDetails.getGender());
-            movieCharacter.setPhoto(movieCharacterDetails.getPhoto());
-            return movieCharacterRepository.save(movieCharacter);
+            movieCharacter.setName(dto.getName());
+            movieCharacter.setAlias(dto.getAlias());
+            movieCharacter.setGender(dto.getGender());
+            movieCharacter.setPhoto(dto.getPhoto());
+
+            MovieCharacter updatedCharacter = movieCharacterRepository.save(movieCharacter);
+
+            // convert updated MovieCharacter to MovieCharacterPostDTO
+            MovieCharacterPostDTO updatedDto = new MovieCharacterPostDTO();
+            updatedDto.setName(updatedCharacter.getName());
+            updatedDto.setAlias(updatedCharacter.getAlias());
+            updatedDto.setGender(updatedCharacter.getGender());
+            updatedDto.setPhoto(updatedCharacter.getPhoto());
+
+            return updatedDto;
         } else {
             throw new RuntimeException("Character not found with id: " + id);
         }
     }
-
     @Transactional
     public void deleteCharacter(Long id) {
         Query deleteAssociationsQuery = entityManager.createNativeQuery("DELETE FROM characters_movies WHERE character_id = ?")

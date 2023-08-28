@@ -1,7 +1,7 @@
 package com.film_api.controller;
 
 import com.film_api.model.dto.FranchiseDTO;
-import com.film_api.model.Franchise;
+import com.film_api.model.dto.FranchisePostDTO;
 import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.model.dto.MovieDTO;
 import com.film_api.service.CharacterService;
@@ -57,17 +57,17 @@ public class FranchiseController {
 
     @Operation(summary = "Post a franchise")
     @PostMapping
-    public ResponseEntity<Franchise> postFranchise(@RequestBody Franchise franchise) {
-        Franchise savedFranchise = franchiseService.createFranchise(franchise);
+    public ResponseEntity<FranchisePostDTO> postFranchise(@RequestBody FranchisePostDTO franchise) {
+        FranchisePostDTO savedFranchise = franchiseService.createFranchise(franchise);
         return ResponseEntity.ok(savedFranchise);
     }
 
 
     @Operation(summary = "Update a franchise")
     @PutMapping("{id}")
-    public ResponseEntity<Franchise> updateFranchise(@PathVariable Long id, @RequestBody Franchise franchiseDetails) {
+    public ResponseEntity<FranchisePostDTO> updateFranchise(@PathVariable Long id, @RequestBody FranchisePostDTO franchiseDetails) {
         try {
-            Franchise updatedFranchise = franchiseService.updateFranchise(id, franchiseDetails);
+            FranchisePostDTO updatedFranchise = franchiseService.updateFranchise(id, franchiseDetails);
             return ResponseEntity.ok(updatedFranchise);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
