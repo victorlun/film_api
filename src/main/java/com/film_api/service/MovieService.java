@@ -4,6 +4,7 @@ import com.film_api.model.MovieCharacter;
 import com.film_api.model.dto.MovieDTO;
 import com.film_api.mapper.MovieMapper;
 import com.film_api.model.Movie;
+import com.film_api.model.dto.MoviePostDTO;
 import com.film_api.repository.MovieCharacterRepository;
 import com.film_api.repository.MovieRepository;
 import jakarta.persistence.EntityManager;
@@ -45,34 +46,44 @@ public class MovieService {
         return movieOptional.map(movie -> movieMapper.movieToMovieDTO(movie));
     }
 
-    public Movie createMovie(Movie movie){
-        return movieRepository.save(movie);
+    public MoviePostDTO createMovie(MoviePostDTO movieDetails) {
+        Movie movie = new Movie();
+        movie.setTitle(movieDetails.getTitle());
+        movie.setGenre(movieDetails.getGenre());
+        movie.setReleaseYear(movieDetails.getReleaseYear());
+        movie.setDirector(movieDetails.getDirector());
+        movie.setPicture(movieDetails.getPicture());
+        movie.setTrailer(movieDetails.getTrailer());
+
+        Movie savedMovie = movieRepository.save(movie);
+
+        MoviePostDTO newMovieDTO = new MoviePostDTO();
+        newMovieDTO.setTitle(savedMovie.getTitle());
+        newMovieDTO.setGenre(savedMovie.getGenre());
+        newMovieDTO.setReleaseYear(savedMovie.getReleaseYear());
+        newMovieDTO.setDirector(savedMovie.getDirector());
+        newMovieDTO.setPicture(savedMovie.getPicture());
+        newMovieDTO.setTrailer(savedMovie.getTrailer());
+
+        return newMovieDTO;
     }
-    public Movie updateMovie (Long id, Movie movieDetails){
+    public Movie updateMovie(Long id, MoviePostDTO movieDetails) {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
-        if (optionalMovie.isPresent()){
+        if (optionalMovie.isPresent()) {
             Movie movie = optionalMovie.get();
             movie.setTitle(movieDetails.getTitle());
-            movie.setDirector(movieDetails.getDirector());
             movie.setGenre(movieDetails.getGenre());
-            movie.setPicture(movie.getPicture());
             movie.setReleaseYear(movieDetails.getReleaseYear());
+            movie.setDirector(movieDetails.getDirector());
+            movie.setPicture(movieDetails.getPicture());
             movie.setTrailer(movieDetails.getTrailer());
             return movieRepository.save(movie);
-        }else{
-            throw new RuntimeException("Movie not found with id: "+ id);
-        }
-    }
-
-    /*  Old deleteMovie function
-    public void deleteMovie(Long id){
-        if(movieRepository.existsById(id)){
-            movieRepository.deleteById(id);
-        }else {
+        } else {
             throw new RuntimeException("Movie not found with id: " + id);
         }
     }
-    */
+
+
 
     @Transactional
     public void deleteMovie(Long id) {

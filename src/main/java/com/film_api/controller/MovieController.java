@@ -1,8 +1,10 @@
 package com.film_api.controller;
 
+import com.film_api.mapper.MovieMapper;
 import com.film_api.model.dto.MovieCharacterDTO;
 import com.film_api.model.dto.MovieDTO;
 import com.film_api.model.Movie;
+import com.film_api.model.dto.MoviePostDTO;
 import com.film_api.service.CharacterService;
 import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/movies")
@@ -61,9 +64,16 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Bad Request")
     })
     @PostMapping
-    public ResponseEntity<Movie> postMovie(@RequestBody Movie movie){
+    public ResponseEntity<Movie> postMovie(@RequestBody MoviePostDTO movieDto) {
         try {
-            Movie newMovie = movieService.createMovie(movie);
+            MoviePostDTO newMovieDto = movieService.createMovie(movieDto);
+            Movie newMovie = new Movie();
+            newMovie.setTitle(newMovieDto.getTitle());
+            newMovie.setGenre(newMovieDto.getGenre());
+            newMovie.setReleaseYear(newMovieDto.getReleaseYear());
+            newMovie.setDirector(newMovieDto.getDirector());
+            newMovie.setPicture(newMovieDto.getPicture());
+            newMovie.setTrailer(newMovieDto.getTrailer());
             return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,14 +81,15 @@ public class MovieController {
     }
     @Operation(summary = "Update a movie")
     @PutMapping("{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movieDetails) {
+    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody MoviePostDTO movieDto) {
         try {
-            Movie updatedMovie = movieService.updateMovie(id, movieDetails);
+            Movie updatedMovie = movieService.updateMovie(id, movieDto);
             return ResponseEntity.ok(updatedMovie);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
+
     @Operation(summary = "Delete a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Movie successfully deleted"),
