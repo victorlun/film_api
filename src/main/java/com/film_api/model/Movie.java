@@ -1,8 +1,8 @@
 package com.film_api.model;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.util.Set;
-
 @Entity
 @Table(name = "movie")
 public class Movie {
@@ -102,6 +102,9 @@ public class Movie {
 
     public void setTrailer(String newTrailer) {
         this.trailer = newTrailer;
+    }
+    public void setFranchise(Franchise franchise) {
+        this.franchise = franchise;
     }
 
     @Override
