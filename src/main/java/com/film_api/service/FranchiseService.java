@@ -1,9 +1,10 @@
 package com.film_api.service;
 
-import com.film_api.model.Movie;
-import com.film_api.model.dto.FranchiseDTO;
+import com.film_api.model.movie.Movie;
+import com.film_api.model.franchise.FranchiseDTO;
 import com.film_api.mapper.FranchiseMapper;
-import com.film_api.model.Franchise;
+import com.film_api.model.franchise.Franchise;
+import com.film_api.model.franchise.FranchisePostDTO;
 import com.film_api.repository.FranchiseRepository;
 import com.film_api.repository.MovieRepository;
 import jakarta.persistence.EntityManager;
@@ -48,21 +49,37 @@ public class FranchiseService {
         return franchise.map(franchiseDTOConverter::convertToDTO);  // Convert to FranchiseDTO if present
     }
 
-    public Franchise createFranchise(Franchise franchise) {
-        return franchiseRepository.save(franchise);
+    public FranchisePostDTO createFranchise(FranchisePostDTO franchiseDetails) {
+        // Create a new Franchise entity from the incoming FranchisePostDTO
+        Franchise newFranchise = new Franchise();
+        newFranchise.setName(franchiseDetails.getName());
+        newFranchise.setDescription(franchiseDetails.getDescription());
+
+        // Save the new Franchise entity
+        Franchise savedFranchise = franchiseRepository.save(newFranchise);
+
+        // Convert the saved Franchise entity to a FranchisePostDTO
+        FranchisePostDTO newFranchiseDTO = new FranchisePostDTO();
+        newFranchiseDTO.setName(savedFranchise.getName());
+        newFranchiseDTO.setDescription(savedFranchise.getDescription());
+
+        return newFranchiseDTO;
     }
 
-    public Franchise updateFranchise(Long id, Franchise franchiseDetails) {
-        Optional<Franchise> optionalFranchise = franchiseRepository.findById(id);
+    public FranchisePostDTO updateFranchise(Long id, FranchisePostDTO franchiseDetails) {
+        Franchise existingFranchise = franchiseRepository.findById(id).orElseThrow(() -> new RuntimeException("Franchise not found"));
 
-        if (optionalFranchise.isPresent()) {
-            Franchise franchise = optionalFranchise.get();
-            franchise.setName(franchiseDetails.getName());
-            franchise.setDescription(franchiseDetails.getDescription());
-            return franchiseRepository.save(franchise);
-        } else {
-            throw new RuntimeException("Franchise not found with id: " + id);
-        }
+        existingFranchise.setName(franchiseDetails.getName());
+        existingFranchise.setDescription(franchiseDetails.getDescription());
+
+        Franchise updatedFranchise = franchiseRepository.save(existingFranchise);
+
+        // Convert Franchise entity to FranchisePostDTO before returning
+        FranchisePostDTO updatedFranchiseDTO = new FranchisePostDTO();
+        updatedFranchiseDTO.setName(updatedFranchise.getName());
+        updatedFranchiseDTO.setDescription(updatedFranchise.getDescription());
+
+        return updatedFranchiseDTO;
     }
 
     @Transactional

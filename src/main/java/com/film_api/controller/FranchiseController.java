@@ -1,8 +1,12 @@
 package com.film_api.controller;
 
-import com.film_api.model.dto.FranchiseDTO;
-import com.film_api.model.Franchise;
+import com.film_api.model.franchise.FranchiseDTO;
+import com.film_api.model.franchise.FranchisePostDTO;
+import com.film_api.model.movie_character.MovieCharacterDTO;
+import com.film_api.model.movie.MovieDTO;
+import com.film_api.service.CharacterService;
 import com.film_api.service.FranchiseService;
+import com.film_api.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +20,14 @@ import java.util.List;
 public class FranchiseController {
 
     private final FranchiseService franchiseService;
+    private final MovieService movieService;
+    private final CharacterService characterService;
 
     @Autowired
-    public FranchiseController(FranchiseService franchiseService) {
+    public FranchiseController(FranchiseService franchiseService, MovieService movieService, CharacterService characterService) {
         this.franchiseService = franchiseService;
+        this.movieService = movieService;
+        this.characterService = characterService;
     }
 
     @Operation(summary = "Get all franchises")
@@ -37,19 +45,29 @@ public class FranchiseController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation (summary = "Get all movies in a franchise")
+    @GetMapping("{id}/movies")
+    public ResponseEntity<List<MovieDTO>> getAllMovies(@PathVariable Long id){
+        List<MovieDTO> movies = movieService.getAllMoviesByFranchise(id);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
+        }
+
+
+
+
     @Operation(summary = "Post a franchise")
     @PostMapping
-    public ResponseEntity<Franchise> postFranchise(@RequestBody Franchise franchise) {
-        Franchise savedFranchise = franchiseService.createFranchise(franchise);
+    public ResponseEntity<FranchisePostDTO> postFranchise(@RequestBody FranchisePostDTO franchise) {
+        FranchisePostDTO savedFranchise = franchiseService.createFranchise(franchise);
         return ResponseEntity.ok(savedFranchise);
     }
 
 
     @Operation(summary = "Update a franchise")
     @PutMapping("{id}")
-    public ResponseEntity<Franchise> updateFranchise(@PathVariable Long id, @RequestBody Franchise franchiseDetails) {
+    public ResponseEntity<FranchisePostDTO> updateFranchise(@PathVariable Long id, @RequestBody FranchisePostDTO franchiseDetails) {
         try {
-            Franchise updatedFranchise = franchiseService.updateFranchise(id, franchiseDetails);
+            FranchisePostDTO updatedFranchise = franchiseService.updateFranchise(id, franchiseDetails);
             return ResponseEntity.ok(updatedFranchise);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -72,5 +90,11 @@ public class FranchiseController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+    @Operation(summary = "Get all characters in a franchise")
+    @GetMapping("/{id}/characters")
+    public ResponseEntity<List<MovieCharacterDTO>> getCharactersByFranchise(@PathVariable Long id) {
+        List<MovieCharacterDTO> characters = characterService.getAllCharactersByFranchiseId(id);
+        return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 }

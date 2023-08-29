@@ -1,12 +1,12 @@
-package com.film_api.model;
-
+package com.film_api.model.movie;
+import com.film_api.model.franchise.Franchise;
+import com.film_api.model.movie_character.MovieCharacter;
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
-
 @Entity
 @Table(name = "movie")
 @Schema(description = "Represents a movie.")
@@ -129,6 +129,9 @@ public class Movie {
 
     public void setTrailer(String newTrailer) {
         this.trailer = newTrailer;
+    }
+    public void setFranchise(Franchise franchise) {
+        this.franchise = franchise;
     }
 
     public Franchise getFranchise() {

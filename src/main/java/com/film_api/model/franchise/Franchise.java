@@ -1,4 +1,6 @@
-package com.film_api.model;
+package com.film_api.model.franchise;
+import com.film_api.model.movie.Movie;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

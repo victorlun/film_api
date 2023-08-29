@@ -1,7 +1,7 @@
 package com.film_api.mapper;
 
-import com.film_api.model.dto.MovieDTO;
-import com.film_api.model.Movie;
+import com.film_api.model.movie.MovieDTO;
+import com.film_api.model.movie.Movie;
 import org.mapstruct.Mapper;
 
 
