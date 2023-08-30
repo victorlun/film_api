@@ -130,9 +130,6 @@ public class Movie {
     public void setTrailer(String newTrailer) {
         this.trailer = newTrailer;
     }
-    public void setFranchise(Franchise franchise) {
-        this.franchise = franchise;
-    }
 
     public Franchise getFranchise() {
         return this.franchise;
