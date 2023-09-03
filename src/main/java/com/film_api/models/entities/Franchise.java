@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +12,8 @@ import java.util.Set;
 @Entity
 @Table(name = "franchise")
 @Schema(description = "Represents a franchise.")
+@Getter
+@Setter
 public class Franchise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,46 +34,6 @@ public class Franchise {
     @ArraySchema(schema = @Schema(implementation = Movie.class))
     private Set<Movie> movies;
 
-    /**
-     * Default constructor.
-     */
-    public Franchise() {
-    }
-
-    /**
-     * Constructor to create a new franchise.
-     *
-     * @param name        Name of the franchise. (Example: "Star Wars")
-     * @param description Description of the franchise. (Example: "A space opera franchise")
-     */
-    public Franchise(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setName(String newName) {
-        this.name = newName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setDescription(String newDescription) {
-        this.description = newDescription;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Set<Movie> getMovies() {
-        return movies;
-    }
 
     public void setMovies(Set<Movie> newMovies) {
         if (this.movies == null) {
@@ -82,12 +46,10 @@ public class Franchise {
         // Add new movies from the newMovies set
         this.movies.addAll(newMovies);
     }
-
-
-    @Override
-    public String toString() {
-        return "Character [id=" + id + ", name=" + name + ", description=" + description + "]";
-    }
 }
+
+
+
+
 
 

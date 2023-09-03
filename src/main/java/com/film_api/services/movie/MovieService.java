@@ -1,4 +1,4 @@
-package com.film_api.services;
+package com.film_api.services.movie;
 
 import com.film_api.models.entities.MovieCharacter;
 import com.film_api.models.dtos.movie.MovieDTO;

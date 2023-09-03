@@ -1,10 +1,7 @@
 package com.film_api.models.dtos.movie;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+import lombok.Data;
+@Data
 public class MoviePostDTO {
     private String title;
 

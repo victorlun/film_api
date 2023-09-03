@@ -1,11 +1,9 @@
 package com.film_api.models.dtos.moviecharacter;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class MovieCharacterPostDTO {
     @Schema(description = "Full name of the character.", example = "Tony Stark")
     private String name;

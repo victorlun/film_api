@@ -1,4 +1,4 @@
-package com.film_api.services;
+package com.film_api.services.franchise;
 
 import com.film_api.models.entities.Movie;
 import com.film_api.models.dtos.franchise.FranchiseDTO;

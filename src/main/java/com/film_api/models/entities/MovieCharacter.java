@@ -38,29 +38,4 @@ public class MovieCharacter {
     @Schema(description = "Set of movies the character has played in.")
     Set<Movie> playedInMovies;
 
-    /**
-     * Default constructor.
-     */
-    public MovieCharacter() {
-    }
-
-    /**
-     * Constructor to create a new movie character.
-     *
-     * @param name   Full name of the character. (Example: "John Doe")
-     * @param alias  Alias or nickname of the character. (Example: "The Hero")
-     * @param gender Gender of the character. (Example: "Male")
-     * @param url    URL to the character's photo. (Example: "https://example.com/character.jpg")
-     */
-    public MovieCharacter(String name, String alias, String gender, String url) {
-        this.name = name;
-        this.alias = alias;
-        this.gender = gender;
-        this.photo = url;
-    }
-
-    @Override
-    public String toString() {
-        return "Character [id=" + character_id + ", name=" + name + ", alias=" + alias + ", gender=" + gender + ", photo url=" + photo + "]";
-    }
 }

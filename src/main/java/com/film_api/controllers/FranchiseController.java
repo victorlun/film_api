@@ -4,9 +4,9 @@ import com.film_api.models.dtos.franchise.FranchiseDTO;
 import com.film_api.models.dtos.franchise.FranchisePostDTO;
 import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
 import com.film_api.models.dtos.movie.MovieDTO;
-import com.film_api.services.CharacterService;
-import com.film_api.services.FranchiseService;
-import com.film_api.services.MovieService;
+import com.film_api.services.character.CharacterServiceImpl;
+import com.film_api.services.franchise.FranchiseService;
+import com.film_api.services.movie.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,13 +21,13 @@ public class FranchiseController {
 
     private final FranchiseService franchiseService;
     private final MovieService movieService;
-    private final CharacterService characterService;
+    private final CharacterServiceImpl characterServiceImpl;
 
     @Autowired
-    public FranchiseController(FranchiseService franchiseService, MovieService movieService, CharacterService characterService) {
+    public FranchiseController(FranchiseService franchiseService, MovieService movieService, CharacterServiceImpl characterServiceImpl) {
         this.franchiseService = franchiseService;
         this.movieService = movieService;
-        this.characterService = characterService;
+        this.characterServiceImpl = characterServiceImpl;
     }
 
     @Operation(summary = "Get all franchises")
@@ -94,7 +94,7 @@ public class FranchiseController {
     @Operation(summary = "Get all characters in a franchise")
     @GetMapping("/{id}/characters")
     public ResponseEntity<List<MovieCharacterDTO>> getCharactersByFranchise(@PathVariable Long id) {
-        List<MovieCharacterDTO> characters = characterService.getAllCharactersByFranchiseId(id);
+        List<MovieCharacterDTO> characters = characterServiceImpl.getAllCharactersByFranchiseId(id);
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 }

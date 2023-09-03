@@ -3,14 +3,14 @@ package com.film_api.models.dtos.franchise;
 import com.film_api.models.entities.Franchise;
 import com.film_api.models.entities.Movie;
 import com.film_api.models.dtos.movie.MovieDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
+@Data
 public class FranchiseDTO {
     private String name;
     private String description;
