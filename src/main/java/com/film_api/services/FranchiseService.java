@@ -1,12 +1,12 @@
-package com.film_api.service;
+package com.film_api.services;
 
-import com.film_api.model.movie.Movie;
-import com.film_api.model.franchise.FranchiseDTO;
-import com.film_api.mapper.FranchiseMapper;
-import com.film_api.model.franchise.Franchise;
-import com.film_api.model.franchise.FranchisePostDTO;
-import com.film_api.repository.FranchiseRepository;
-import com.film_api.repository.MovieRepository;
+import com.film_api.models.entities.Movie;
+import com.film_api.models.dtos.franchise.FranchiseDTO;
+import com.film_api.mappers.FranchiseMapper;
+import com.film_api.models.entities.Franchise;
+import com.film_api.models.dtos.franchise.FranchisePostDTO;
+import com.film_api.repositories.FranchiseRepository;
+import com.film_api.repositories.MovieRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;

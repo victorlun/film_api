@@ -1,7 +1,7 @@
-package com.film_api.mapper;
+package com.film_api.mappers;
 
-import com.film_api.model.franchise.FranchiseDTO;
-import com.film_api.model.franchise.Franchise;
+import com.film_api.models.dtos.franchise.FranchiseDTO;
+import com.film_api.models.entities.Franchise;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

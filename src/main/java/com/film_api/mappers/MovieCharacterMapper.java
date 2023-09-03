@@ -1,9 +1,9 @@
-package com.film_api.mapper;
+package com.film_api.mappers;
 
-import com.film_api.model.movie_character.MovieCharacterDTO;
-import com.film_api.model.movie.MovieDTO;
-import com.film_api.model.movie.Movie;
-import com.film_api.model.movie_character.MovieCharacter;
+import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
+import com.film_api.models.dtos.movie.MovieDTO;
+import com.film_api.models.entities.Movie;
+import com.film_api.models.entities.MovieCharacter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

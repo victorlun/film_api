@@ -1,12 +1,8 @@
-package com.film_api.model.franchise;
-import com.film_api.model.movie.Movie;
+package com.film_api.models.entities;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;

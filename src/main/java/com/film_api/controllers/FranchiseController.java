@@ -1,12 +1,12 @@
-package com.film_api.controller;
+package com.film_api.controllers;
 
-import com.film_api.model.franchise.FranchiseDTO;
-import com.film_api.model.franchise.FranchisePostDTO;
-import com.film_api.model.movie_character.MovieCharacterDTO;
-import com.film_api.model.movie.MovieDTO;
-import com.film_api.service.CharacterService;
-import com.film_api.service.FranchiseService;
-import com.film_api.service.MovieService;
+import com.film_api.models.dtos.franchise.FranchiseDTO;
+import com.film_api.models.dtos.franchise.FranchisePostDTO;
+import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
+import com.film_api.models.dtos.movie.MovieDTO;
+import com.film_api.services.CharacterService;
+import com.film_api.services.FranchiseService;
+import com.film_api.services.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

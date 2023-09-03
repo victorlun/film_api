@@ -1,5 +1,4 @@
-package com.film_api.model.movie_character;
-import com.film_api.model.movie.Movie;
+package com.film_api.models.entities;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;

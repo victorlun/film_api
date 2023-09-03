@@ -1,4 +1,4 @@
-package com.film_api.model.movie_character;
+package com.film_api.models.dtos.moviecharacter;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

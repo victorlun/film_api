@@ -1,12 +1,12 @@
-package com.film_api.controller;
+package com.film_api.controllers;
 
-import com.film_api.model.movie_character.MovieCharacterDTO;
-import com.film_api.model.movie_character.MovieCharacterPostDTO;
+import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
+import com.film_api.models.dtos.moviecharacter.MovieCharacterPostDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import com.film_api.service.CharacterService;
+import com.film_api.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

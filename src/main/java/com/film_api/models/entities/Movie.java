@@ -1,10 +1,6 @@
-package com.film_api.model.movie;
-import com.film_api.model.franchise.Franchise;
-import com.film_api.model.movie_character.MovieCharacter;
+package com.film_api.models.entities;
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 @Entity

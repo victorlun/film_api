@@ -1,11 +1,11 @@
-package com.film_api.controller;
+package com.film_api.controllers;
 
-import com.film_api.model.movie_character.MovieCharacterDTO;
-import com.film_api.model.movie.MovieDTO;
-import com.film_api.model.movie.Movie;
-import com.film_api.model.movie.MoviePostDTO;
-import com.film_api.service.CharacterService;
-import com.film_api.service.MovieService;
+import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
+import com.film_api.models.dtos.movie.MovieDTO;
+import com.film_api.models.entities.Movie;
+import com.film_api.models.dtos.movie.MoviePostDTO;
+import com.film_api.services.CharacterService;
+import com.film_api.services.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

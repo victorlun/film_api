@@ -1,6 +1,6 @@
-package com.film_api.repository;
+package com.film_api.repositories;
 
-import com.film_api.model.franchise.Franchise;
+import com.film_api.models.entities.Franchise;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

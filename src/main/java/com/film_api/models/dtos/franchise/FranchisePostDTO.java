@@ -1,4 +1,4 @@
-package com.film_api.model.franchise;
+package com.film_api.models.dtos.franchise;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.film_api.model.movie;
+package com.film_api.models.dtos.movie;
 
 import lombok.Getter;
 import lombok.Setter;

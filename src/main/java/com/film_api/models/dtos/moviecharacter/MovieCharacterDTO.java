@@ -1,6 +1,6 @@
-package com.film_api.model.movie_character;
+package com.film_api.models.dtos.moviecharacter;
 
-import com.film_api.model.movie.MovieDTO;
+import com.film_api.models.dtos.movie.MovieDTO;
 import lombok.Getter;
 import lombok.Setter;
 
