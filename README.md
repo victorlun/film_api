@@ -33,7 +33,7 @@ Open PgAdmin/DBeaver and create a new database. Alternatively, you can create a 
 ```bash
 createdb your_database_name
 ```
-### 5. 5. Update `application.properties`
+### 5. Update `application.properties`
 Navigate to `src/main/resources/` and open `application.properties`. Update the database URL, username, and password.
 
 ```properties
