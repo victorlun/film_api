@@ -1,11 +1,13 @@
 package com.film_api.controllers;
 
+import com.film_api.mappers.MovieMapper;
 import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
 import com.film_api.models.dtos.movie.MovieDTO;
 import com.film_api.models.entities.Movie;
 import com.film_api.models.dtos.movie.MoviePostDTO;
 import com.film_api.services.character.CharacterServiceImpl;
 import com.film_api.services.movie.MovieService;
+import com.film_api.services.movie.MovieServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -15,15 +17,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/v1/movies")
 public class MovieController {
     private final MovieService movieService;
+    private final MovieMapper movieMapper;
     private final CharacterServiceImpl characterServiceImpl;
     @Autowired
-    public MovieController(MovieService movieService, CharacterServiceImpl characterServiceImpl){
+    public MovieController(MovieService movieService, MovieMapper movieMapper, CharacterServiceImpl characterServiceImpl){
         this.movieService = movieService;
+        this.movieMapper = movieMapper;
         this.characterServiceImpl = characterServiceImpl;
     }
 
@@ -36,8 +41,11 @@ public class MovieController {
     })
     @GetMapping
     public ResponseEntity<List<MovieDTO>> getAll() {
-        List<MovieDTO> movies = movieService.getAllMovies();
-        return new ResponseEntity<>(movies, HttpStatus.OK);
+        List<Movie> movies = movieService.findAll().stream().toList();
+        List<MovieDTO> dtoMovies = movies.stream()
+                .map(movieMapper::movieToMovieDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(dtoMovies, HttpStatus.OK);
     }
 
     @Operation(summary = "Get specific movie")
@@ -49,9 +57,9 @@ public class MovieController {
     })
     @GetMapping("{id}")
     public ResponseEntity<MovieDTO> getSpecificMovie(@PathVariable Long id) {
-        return movieService.getMovieById(id)
-                .map(movieDTO -> new ResponseEntity<>(movieDTO, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        MovieDTO movieDTO = movieMapper.movieToMovieDTO(movieService.findById(id));
+
+        return new ResponseEntity<>(movieDTO, HttpStatus.OK);
     }
 
     @Operation(summary = "Get all characters in a movie")
@@ -67,31 +75,22 @@ public class MovieController {
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 
-
-
-    @Operation(summary = "Post a movie")
+    @Operation(summary = "Create a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Movie successfully created"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
     @PostMapping
-    public ResponseEntity<Movie> postMovie(@RequestBody MoviePostDTO movieDto) {
+    public ResponseEntity<Void> postMovie(@RequestBody MoviePostDTO movieDto) {
         try {
-            MoviePostDTO newMovieDto = movieService.createMovie(movieDto);
-            Movie newMovie = new Movie();
-            newMovie.setTitle(newMovieDto.getTitle());
-            newMovie.setGenre(newMovieDto.getGenre());
-            newMovie.setReleaseYear(newMovieDto.getReleaseYear());
-            newMovie.setDirector(newMovieDto.getDirector());
-            newMovie.setPicture(newMovieDto.getPicture());
-            newMovie.setTrailer(newMovieDto.getTrailer());
-            return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
+            movieService.add(movieMapper.moviePostDTOToMovie(movieDto));
+
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.badRequest().build();
         }
     }
-
     @Operation(summary = "Update a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie successfully updated"),
@@ -100,15 +99,28 @@ public class MovieController {
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
     @PutMapping("{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody MoviePostDTO movieDto) {
+    public ResponseEntity<Void> updateMovie(@PathVariable Long id, @RequestBody MoviePostDTO movieDto) {
         try {
-            Movie updatedMovie = movieService.updateMovie(id, movieDto);
-            return ResponseEntity.ok(updatedMovie);
+            Movie existingMovie = movieService.findById(id);
+
+            if(existingMovie == null){
+                return ResponseEntity.notFound().build();
+            }
+
+            existingMovie.setTitle(movieDto.getTitle());
+            existingMovie.setGenre(movieDto.getGenre());
+            existingMovie.setReleaseYear(movieDto.getReleaseYear());
+            existingMovie.setDirector(movieDto.getDirector());
+            existingMovie.setPicture(movieDto.getPicture());
+            existingMovie.setTrailer(movieDto.getTrailer());
+
+            movieService.update(existingMovie);
+
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
-
     @Operation(summary = "Delete a movie")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Movie successfully deleted"),
@@ -118,10 +130,10 @@ public class MovieController {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        MovieDTO movie = getSpecificMovie(id).getBody();
+        Movie movie = movieService.findById(id);
         String title = movie.getTitle();
         try {
-            movieService.deleteMovie(id);
+            movieService.deleteById(id);
             return new ResponseEntity<>(title + " deleted successfully", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
