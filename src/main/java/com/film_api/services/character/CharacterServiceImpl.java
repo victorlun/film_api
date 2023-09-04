@@ -38,7 +38,6 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public MovieCharacter findById(Long id) {
         return movieCharacterRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
-       // return character.map(movieCharacter -> movieCharacterMapper.characterToCharacterDTO(movieCharacter));
     }
 
     @Override
@@ -52,6 +51,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
     @Transactional
     public void deleteById(Long id) {
+        //Couldn't get it to work using the JPA-functionality
         Query deleteAssociationsQuery = entityManager.createNativeQuery("DELETE FROM characters_movies WHERE character_id = ?")
                 .setParameter(1, id);
         deleteAssociationsQuery.executeUpdate();

@@ -47,6 +47,18 @@ public class FranchiseServiceImpl implements FranchiseService {
     }
 
     @Transactional
+    public void deleteById(Long id) {
+        //Couldn't get it to work using the JPA-functionality
+        Query nullifyFranchiseInMovieQuery = entityManager.createNativeQuery("UPDATE movie SET franchise_id = NULL WHERE franchise_id = ?")
+                .setParameter(1, id);
+        nullifyFranchiseInMovieQuery.executeUpdate();
+
+        Query deleteFranchiseQuery = entityManager.createNativeQuery("DELETE FROM franchise WHERE id = ?")
+                .setParameter(1, id);
+        deleteFranchiseQuery.executeUpdate();
+    }
+
+    @Transactional
     public void updateFranchiseRelation(Long franchiseId, int[] movieIds) {
         // Find the franchise by ID or throw an exception if not found
         Franchise franchise = franchiseRepository.findById(franchiseId)
@@ -67,14 +79,5 @@ public class FranchiseServiceImpl implements FranchiseService {
         franchiseRepository.save(franchise);
     }
 
-    @Transactional
-    public void deleteById(Long id) {
-        Query nullifyFranchiseInMovieQuery = entityManager.createNativeQuery("UPDATE movie SET franchise_id = NULL WHERE franchise_id = ?")
-                .setParameter(1, id);
-        nullifyFranchiseInMovieQuery.executeUpdate();
 
-        Query deleteFranchiseQuery = entityManager.createNativeQuery("DELETE FROM franchise WHERE id = ?")
-                .setParameter(1, id);
-        deleteFranchiseQuery.executeUpdate();
-    }
 }
