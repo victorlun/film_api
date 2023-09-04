@@ -103,7 +103,7 @@ public class CharacterController {
             return ResponseEntity.noContent().build();
 
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 
