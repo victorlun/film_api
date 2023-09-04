@@ -15,6 +15,33 @@ Before starting, ensure you have the following tools installed:
 - PostgreSQL with PgAdmin
 - Docker for environment replication
 
+## Quick Start
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-repository.git
+```
+### 2.  Navigate to the Project Folder
+```bash
+cd your-project-folder
+```
+### 3. Start PostgreSQL database
+```bash
+sudo service postgresql start
+```
+### 4. Create a Database
+Open PgAdmin/DBeaver and create a new database. Alternatively, you can create a new database via the command line:
+```bash
+createdb your_database_name
+```
+### 5. 5. Update `application.properties`
+Navigate to `src/main/resources/` and open `application.properties`. Update the database URL, username, and password.
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+```
+
 ## Hibernate Database Setup
 
 ### Models, Repositories, and Services
