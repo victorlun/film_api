@@ -41,6 +41,11 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 ```
+### 6. Run and documentation
+Open the project in IntelliJ and click on the `Run` button
+
+Navigate to http://localhost:8081/swagger-ui.html to access the API documentation and try out the endpoints.
+
 
 ## Hibernate Database Setup
 
