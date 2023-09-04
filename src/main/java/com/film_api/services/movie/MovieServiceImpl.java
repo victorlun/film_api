@@ -6,8 +6,8 @@ import com.film_api.mappers.MovieMapper;
 import com.film_api.models.entities.Movie;
 import com.film_api.repositories.MovieCharacterRepository;
 import com.film_api.repositories.MovieRepository;
-import com.film_api.utils.exceptions.CharacterNotFoundException;
-import com.film_api.utils.exceptions.MovieNotFoundException;
+import com.film_api.exceptions.CharacterNotFoundException;
+import com.film_api.exceptions.MovieNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void updateCharacters(Long movieId, int[] characterIds) {
-        Movie movie = null;
+        Movie movie;
         try {
             movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class MovieServiceImpl implements MovieService {
         }
         Set<MovieCharacter> characters = new HashSet<>();
         for (int id : characterIds) {
-            MovieCharacter character = null;
+            MovieCharacter character;
             try {
                 character = movieCharacterRepository.findById((long) id)
                         .orElseThrow(() -> new CharacterNotFoundException(id));

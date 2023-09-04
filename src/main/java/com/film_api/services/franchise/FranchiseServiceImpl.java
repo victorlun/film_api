@@ -1,12 +1,11 @@
 package com.film_api.services.franchise;
 
 import com.film_api.models.entities.Movie;
-import com.film_api.mappers.FranchiseMapper;
 import com.film_api.models.entities.Franchise;
 import com.film_api.repositories.FranchiseRepository;
 import com.film_api.repositories.MovieRepository;
-import com.film_api.utils.exceptions.FranchiseNotFoundException;
-import com.film_api.utils.exceptions.MovieNotFoundException;
+import com.film_api.exceptions.FranchiseNotFoundException;
+import com.film_api.exceptions.MovieNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +18,14 @@ import java.util.*;
 public class FranchiseServiceImpl implements FranchiseService {
     private final FranchiseRepository franchiseRepository;
     private final MovieRepository movieRepository;
-    @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private FranchiseMapper franchiseMapper;
+    private final EntityManager entityManager;
 
     @Autowired
-    public FranchiseServiceImpl(FranchiseRepository franchiseRepository, MovieRepository movieRepository) {
+    public FranchiseServiceImpl(FranchiseRepository franchiseRepository, MovieRepository movieRepository, EntityManager entityManager) {
         this.franchiseRepository = franchiseRepository;
         this.movieRepository = movieRepository;
+        this.entityManager = entityManager;
+
     }
     @Override
     public List<Franchise> findAll() {
@@ -80,6 +78,4 @@ public class FranchiseServiceImpl implements FranchiseService {
         // Save the updated franchise
         franchiseRepository.save(franchise);
     }
-
-
 }

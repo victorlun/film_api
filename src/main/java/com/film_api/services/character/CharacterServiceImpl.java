@@ -5,7 +5,7 @@ import com.film_api.mappers.MovieCharacterMapper;
 import com.film_api.models.entities.MovieCharacter;
 import com.film_api.repositories.MovieCharacterRepository;
 
-import com.film_api.utils.exceptions.CharacterNotFoundException;
+import com.film_api.exceptions.CharacterNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 public class CharacterServiceImpl implements CharacterService {
 
     private final MovieCharacterRepository movieCharacterRepository;
-    @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private MovieCharacterMapper movieCharacterMapper;
+    private final EntityManager entityManager;
+    private final MovieCharacterMapper movieCharacterMapper;
 
     @Autowired
-    public CharacterServiceImpl(MovieCharacterRepository movieCharacterRepository) {
+    public CharacterServiceImpl(MovieCharacterRepository movieCharacterRepository, EntityManager entityManager, MovieCharacterMapper movieCharacterMapper) {
         this.movieCharacterRepository = movieCharacterRepository;
+        this.entityManager = entityManager;
+        this.movieCharacterMapper = movieCharacterMapper;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CharacterServiceImpl implements CharacterService {
         List<MovieCharacter> characters = movieCharacterRepository.findByPlayedInMovies_Id(movieId);
 
         return characters.stream()
-                .map(character -> movieCharacterMapper.characterToCharacterDTO(character))
+                .map(movieCharacterMapper::characterToCharacterDTO)
                 .collect(Collectors.toList());
     }
     @Override
