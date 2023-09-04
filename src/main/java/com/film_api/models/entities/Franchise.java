@@ -29,7 +29,6 @@ public class Franchise {
     private String description;
 
     @OneToMany(mappedBy = "franchise")
-    @JsonIgnore
     @Schema(description = "Movies in the franchise.")
     @ArraySchema(schema = @Schema(implementation = Movie.class))
     private Set<Movie> movies;
