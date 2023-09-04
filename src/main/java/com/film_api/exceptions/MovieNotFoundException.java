@@ -1,4 +1,4 @@
-package com.film_api.utils.exceptions;
+package com.film_api.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
