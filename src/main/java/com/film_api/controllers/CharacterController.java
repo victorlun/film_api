@@ -4,6 +4,7 @@ import com.film_api.mappers.MovieCharacterMapper;
 import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
 import com.film_api.models.dtos.moviecharacter.MovieCharacterPostDTO;
 import com.film_api.models.entities.MovieCharacter;
+import com.film_api.services.character.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,11 +22,11 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/characters")
 public class CharacterController {
 
-    private final CharacterServiceImpl characterServiceImpl;
+    private final CharacterService characterService;
     private final MovieCharacterMapper movieCharacterMapper;
     @Autowired
-    public CharacterController(CharacterServiceImpl characterServiceImpl, MovieCharacterMapper movieCharacterMapper) {
-        this.characterServiceImpl = characterServiceImpl;
+    public CharacterController(CharacterService characterService, MovieCharacterMapper movieCharacterMapper) {
+        this.characterService = characterService;
 
         this.movieCharacterMapper = movieCharacterMapper;
     }
@@ -38,7 +39,7 @@ public class CharacterController {
     })
     @GetMapping
     public ResponseEntity<List<MovieCharacterDTO>> getAll() {
-        List<MovieCharacter> characters = characterServiceImpl.findAll();
+        List<MovieCharacter> characters = characterService.findAll().stream().toList();
         List<MovieCharacterDTO> dtoCharacters = new ArrayList<>();
         for(MovieCharacter character : characters){
             dtoCharacters.add(movieCharacterMapper.characterToCharacterDTO(character));
@@ -55,7 +56,7 @@ public class CharacterController {
     })
     @GetMapping("{id}")
     public ResponseEntity<MovieCharacterDTO> getSpecificCharacter(@PathVariable Long id) {
-        MovieCharacter movieCharacter = characterServiceImpl.findById(id);
+        MovieCharacter movieCharacter = characterService.findById(id);
         MovieCharacterDTO movieCharacterDTO = movieCharacterMapper.characterToCharacterDTO(movieCharacter);
         return new ResponseEntity<>(movieCharacterDTO, HttpStatus.OK);
     }
@@ -69,7 +70,7 @@ public class CharacterController {
     public ResponseEntity<MovieCharacter> createCharacter(@RequestBody MovieCharacterPostDTO dto) {
         try {
             MovieCharacter movieCharacter = movieCharacterMapper.movieCharacterPostDtoToCharacter(dto);
-            characterServiceImpl.add(movieCharacter);
+            characterService.add(movieCharacter);
 
             return new ResponseEntity<>(movieCharacter, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -87,23 +88,23 @@ public class CharacterController {
     @PutMapping("{id}")
     public ResponseEntity<Void> updateCharacter(@PathVariable Long id, @RequestBody MovieCharacterPostDTO dto) {
         try {
-            MovieCharacter existingCharacter = characterServiceImpl.findById(id);
+            MovieCharacter existingCharacter = characterService.findById(id);
 
             if (existingCharacter == null) {
                 return ResponseEntity.notFound().build();
             }
-            MovieCharacter updatedCharacter = movieCharacterMapper.movieCharacterPostDtoToCharacter(dto);
-            existingCharacter.setName(updatedCharacter.getName());
-            existingCharacter.setAlias(updatedCharacter.getAlias());
-            existingCharacter.setGender(updatedCharacter.getGender());
-            existingCharacter.setPhoto(updatedCharacter.getPhoto());
 
-            characterServiceImpl.update(existingCharacter);
+            existingCharacter.setName(dto.getName());
+            existingCharacter.setAlias(dto.getAlias());
+            existingCharacter.setGender(dto.getGender());
+            existingCharacter.setPhoto(dto.getPhoto());
+
+            characterService.update(existingCharacter);
 
             return ResponseEntity.noContent().build();
 
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -118,10 +119,10 @@ public class CharacterController {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCharacter(@PathVariable Long id) {
-        MovieCharacter character = characterServiceImpl.findById(id);
+        MovieCharacter character = characterService.findById(id);
         String name = character.getName();
         try {
-            characterServiceImpl.deleteById(id);
+            characterService.deleteById(id);
             return new ResponseEntity<>(name + " deleted successfully", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

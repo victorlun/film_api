@@ -69,16 +69,13 @@ public class CharacterServiceImpl implements CharacterService {
     public List<MovieCharacterDTO> getAllCharactersByMovie(Long movieId) {
         List<MovieCharacter> characters = movieCharacterRepository.findByPlayedInMovies_Id(movieId);
 
-        List<MovieCharacterDTO> characterDTOs = characters.stream()
+        return characters.stream()
                 .map(character -> movieCharacterMapper.characterToCharacterDTO(character))
                 .collect(Collectors.toList());
-        return characterDTOs;
     }
-    public List<MovieCharacterDTO> getAllCharactersByFranchiseId(Long franchiseId) {
-        List<MovieCharacter> movieCharacters = movieCharacterRepository.findByPlayedInMovies_Franchise_Id(franchiseId);
-        List<MovieCharacterDTO> characterDTOList = movieCharacters.stream()
-                .map(movieCharacter -> movieCharacterMapper.characterToCharacterDTO(movieCharacter))
-                .toList();
-        return characterDTOList;
+    @Override
+    public List<MovieCharacter> getAllCharactersByFranchiseId(Long franchiseId) {
+
+        return movieCharacterRepository.findByPlayedInMovies_Franchise_Id(franchiseId);
     }
 }
