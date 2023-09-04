@@ -6,7 +6,9 @@ import lombok.Data;
 
 @Data
 public class FranchisePostDTO {
+    @Schema(description = "Name of the franchise.", example = "Marvel")
     private String name;
+    @Schema(description = "Description of the franchise.", example = "A superhero franchise")
     private String description;
 
 }

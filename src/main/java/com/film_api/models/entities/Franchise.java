@@ -1,7 +1,6 @@
 package com.film_api.models.entities;
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.*;
 import lombok.Getter;
 import lombok.Setter;
