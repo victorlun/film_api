@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.Set;
 
-// Auto-generated getters and setters
+
 @Getter
 @Setter
 @Entity

@@ -3,9 +3,9 @@ package com.film_api.services.character;
 import com.film_api.models.dtos.moviecharacter.MovieCharacterDTO;
 import com.film_api.mappers.MovieCharacterMapper;
 import com.film_api.models.entities.MovieCharacter;
-import com.film_api.models.dtos.moviecharacter.MovieCharacterPostDTO;
 import com.film_api.repositories.MovieCharacterRepository;
 
+import com.film_api.exceptions.CharacterNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +13,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
     private final MovieCharacterRepository movieCharacterRepository;
-    @Autowired
-    private EntityManager entityManager;
-    @Autowired
-    private MovieCharacterMapper movieCharacterMapper;
+    private final EntityManager entityManager;
+    private final MovieCharacterMapper movieCharacterMapper;
 
     @Autowired
-    public CharacterServiceImpl(MovieCharacterRepository movieCharacterRepository) {
+    public CharacterServiceImpl(MovieCharacterRepository movieCharacterRepository, EntityManager entityManager, MovieCharacterMapper movieCharacterMapper) {
         this.movieCharacterRepository = movieCharacterRepository;
+        this.entityManager = entityManager;
+        this.movieCharacterMapper = movieCharacterMapper;
     }
 
     @Override
@@ -37,7 +36,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public MovieCharacter findById(Long id) {
-        return movieCharacterRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        return movieCharacterRepository.findById(id).orElseThrow(() -> new CharacterNotFoundException(id));
     }
 
     @Override
@@ -70,7 +69,7 @@ public class CharacterServiceImpl implements CharacterService {
         List<MovieCharacter> characters = movieCharacterRepository.findByPlayedInMovies_Id(movieId);
 
         return characters.stream()
-                .map(character -> movieCharacterMapper.characterToCharacterDTO(character))
+                .map(movieCharacterMapper::characterToCharacterDTO)
                 .collect(Collectors.toList());
     }
     @Override

@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import com.film_api.services.character.CharacterServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

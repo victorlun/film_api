@@ -1,7 +1,6 @@
 package com.film_api.models.entities;
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,6 @@ public class Franchise {
     private String description;
 
     @OneToMany(mappedBy = "franchise")
-    @JsonIgnore
     @Schema(description = "Movies in the franchise.")
     @ArraySchema(schema = @Schema(implementation = Movie.class))
     private Set<Movie> movies;

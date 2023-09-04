@@ -7,7 +7,6 @@ import com.film_api.models.entities.Movie;
 import com.film_api.models.dtos.movie.MoviePostDTO;
 import com.film_api.services.character.CharacterServiceImpl;
 import com.film_api.services.movie.MovieService;
-import com.film_api.services.movie.MovieServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

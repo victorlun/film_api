@@ -14,6 +14,6 @@ public class MovieCharacterPostDTO {
     @Schema(description = "Gender of the character.", example = "Male")
     private String gender;
 
-    @Schema(description = "URL of the character's photo.", example = "http://example.com/photo.jpg")
+    @Schema(description = "URL of the character's photo.", example = "https://example.com/photo.jpg")
     private String photo;
 }
